@@ -5,6 +5,10 @@
 Thumbs.db
 ehthumbs.db
 
+### OS X ###
+Icon?
+.DS_Store
+
 # Folder config file
 Desktop.ini
 
