@@ -1,4 +1,4 @@
-package test.auftragKomponenteTest;
+package auftragKomponenteTest;
 
 import static org.junit.Assert.*;
 
