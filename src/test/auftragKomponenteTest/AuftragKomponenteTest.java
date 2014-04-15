@@ -1,13 +1,11 @@
-package auftragKomponenteTest;
+package test.auftragKomponenteTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
+import main.auftragKomponente.dataAccessLayer.Auftrag;
 
-import org.hibernate.type.DateType;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
-import auftragKomponente.dataAccessLayer.Auftrag;
 
 public class AuftragKomponenteTest {
 
