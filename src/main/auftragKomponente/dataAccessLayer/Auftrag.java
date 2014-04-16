@@ -1,12 +1,12 @@
 package main.auftragKomponente.dataAccessLayer;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-
-import org.hibernate.type.DateType;
 
 @Entity
 @Table(name = "AUFTRAG")
@@ -14,17 +14,17 @@ public class Auftrag {
 	@Id
 	@GeneratedValue
 	@Column(name = "AUFTRAG_ID")
-	private long auftragsNr;
+	private int auftragsNr;
 	// @Column(name = "AUFTRAG_ABGESCHLOSSEN")
 	private boolean istAbgeschlossen;
 	// @Column(name = "BEAUFTRAG_AM")
-	private DateType beauftragtAm;
+	private Date beauftragtAm;
 
-	public long getAuftragsNr() {
+	public int getAuftragsNr() {
 		return auftragsNr;
 	}
 
-	public void setAuftragsNr(long auftragsNr) {
+	public void setAuftragsNr(int auftragsNr) {
 		this.auftragsNr = auftragsNr;
 	}
 
@@ -36,11 +36,11 @@ public class Auftrag {
 		this.istAbgeschlossen = istAbgeschlossen;
 	}
 
-	public DateType getBeauftragtAm() {
+	public Date getBeauftragtAm() {
 		return beauftragtAm;
 	}
 
-	public void setBeauftragtAm(DateType beauftragtAm) {
+	public void setBeauftragtAm(Date beauftragtAm) {
 		this.beauftragtAm = beauftragtAm;
 	}
 
