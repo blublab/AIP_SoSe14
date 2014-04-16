@@ -1,18 +1,20 @@
 package test.auftragKomponenteTest;
 
-import static org.junit.Assert.fail;
 import main.auftragKomponente.dataAccessLayer.Auftrag;
+import main.auftragKomponente.dataAccessLayer.AuftragDAO;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class AuftragKomponenteTest {
+	Auftrag a;
+	AuftragDAO aDAO;
 
 	@Before
 	public void setUp() throws Exception {
-		Auftrag a = new Auftrag();
-
+		a = new Auftrag();
+		aDAO = new AuftragDAO();
 	}
 
 	@After
@@ -20,8 +22,8 @@ public class AuftragKomponenteTest {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void testCreateAuftrag() {
+		aDAO.saveAuftrag(a.getClass());
+		assert true;
 	}
-
 }
