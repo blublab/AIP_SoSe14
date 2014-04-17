@@ -1,10 +1,13 @@
 package main.fertigungKomponente.accessLayer;
 
+import main.fertigungKomponente.accessLayer.Exceptions.AuftragServicesNotSetException;
+
 public interface IFertigungServicesFuerAuftrag {
 
 	/**
 	 * Setzt den übergebenen Auftrag um.
-	 * @param auftragID ID des Auftrages
+	 * @param auftragNr ID des Auftrages
+	 * @throws AuftragServicesNotSetException 
 	 */
-	public int setzeAuftragUm(int auftragID);
+	public void setzeAuftragUm(int auftragNr) throws AuftragServicesNotSetException;
 }

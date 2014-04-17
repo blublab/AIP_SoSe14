@@ -7,19 +7,21 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "STUECKLISTE")
 public class Stueckliste {
 
-	// TODO: verify DATE Type
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "GUELTIG_AB")
 	private Date gueltigAb;
 
-	// TODO: verify DATE Type
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "GUELTIG_BIS")
 	private Date gueltigBis;
-	
+
 	@OneToMany
 	private List<Stuecklistenposition> stuecklistenposition;
 
@@ -43,7 +45,8 @@ public class Stueckliste {
 		return stuecklistenposition;
 	}
 
-	public void setStuecklistenposition(List<Stuecklistenposition> stuecklistenposition) {
+	public void setStuecklistenposition(
+			List<Stuecklistenposition> stuecklistenposition) {
 		this.stuecklistenposition = stuecklistenposition;
 	}
 }

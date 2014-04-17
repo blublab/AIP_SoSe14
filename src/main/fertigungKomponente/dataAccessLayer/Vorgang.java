@@ -5,32 +5,38 @@ import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "VORGANG")
 public class Vorgang {
 
-	@Column(name="VORGANG_TYP")
-	private VorgangTyp vorgangTyp;
+	public enum ArtTyp {
+		BEREITSTELLUNG, MONTAGE
+	}
 	
-	//TODO: verify DATE type
-	@Column(name="RUESTZEIT")
+	@Column(name = "VORGANGS_ART")
+	private Vorgang.ArtTyp vorgangsArt;
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "RUESTZEIT")
 	private Date ruestzeit;
-	
-	//TODO: verify DATE type
-	@Column(name ="MASCHIENEN_ZEIT")
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "MASCHIENEN_ZEIT")
 	private Date maschienenZeit;
-	
-	//TODO: verify DATE type
-	@Column(name="PERSONEN_ZEIT")
+
+	@Temporal(TemporalType.TIMESTAMP)
+	@Column(name = "PERSONEN_ZEIT")
 	private Date personenZeit;
 
-	public VorgangTyp getVorgangTyp() {
-		return vorgangTyp;
+	public Vorgang.ArtTyp getVorgangTyp() {
+		return vorgangsArt;
 	}
 
-	public void setVorgangTyp(VorgangTyp vorgangTyp) {
-		this.vorgangTyp = vorgangTyp;
+	public void setVorgangTyp(Vorgang.ArtTyp vorgangTyp) {
+		this.vorgangsArt = vorgangTyp;
 	}
 
 	public Date getRuestzeit() {
@@ -56,5 +62,5 @@ public class Vorgang {
 	public void setPersonenZeit(Date personenZeit) {
 		this.personenZeit = personenZeit;
 	}
-	
+
 }

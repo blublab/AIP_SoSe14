@@ -1,5 +1,6 @@
 package main.fertigungKomponente.dataAccessLayer;
 
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -7,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,9 +18,12 @@ public class Fertigungsplan {
 	@GeneratedValue
 	@Column(name = "FERTIGUNGSPLAN_ID")
 	private int fertigungsplanNr;
-	
+
 	@OneToMany
-	private Set<Vorgang> vorgang;
+	private LinkedHashSet<Vorgang> vorgang;
+
+	@OneToOne
+	private Bauteil bauteil;
 
 	public int getFertigungsplanNr() {
 		return fertigungsplanNr;
@@ -28,8 +33,16 @@ public class Fertigungsplan {
 		return vorgang;
 	}
 
-	public void setVorgang(Set<Vorgang> vorgang) {
+	public void setVorgang(LinkedHashSet<Vorgang> vorgang) {
 		this.vorgang = vorgang;
+	}
+
+	public Bauteil getBauteil() {
+		return bauteil;
+	}
+
+	public void setBauteil(Bauteil bauteil) {
+		this.bauteil = bauteil;
 	}
 
 }

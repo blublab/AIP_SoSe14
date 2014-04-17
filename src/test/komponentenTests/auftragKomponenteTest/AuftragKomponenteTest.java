@@ -10,6 +10,7 @@ import main.auftragKomponente.accessLayer.Exceptions.InvalidAngebotStatusExcepti
 import main.auftragKomponente.dataAccessLayer.Angebot;
 import main.auftragKomponente.dataAccessLayer.Auftrag;
 import main.fertigungKomponente.accessLayer.IFertigungServicesFuerAuftrag;
+import main.fertigungKomponente.accessLayer.Exceptions.AuftragServicesNotSetException;
 import main.util.GenericDAO;
 
 import org.jmock.Expectations;
@@ -58,7 +59,7 @@ public class AuftragKomponenteTest {
 
 	@Test
 	public void testCreateAuftragFuerAngebotSuccess()
-			throws InvalidAngebotStatusException {
+			throws InvalidAngebotStatusException, AuftragServicesNotSetException {
 		context.checking(new Expectations() {
 			{
 				oneOf(fertigungServicesMock).setzeAuftragUm(0);

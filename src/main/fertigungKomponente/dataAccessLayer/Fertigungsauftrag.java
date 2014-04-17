@@ -1,6 +1,5 @@
 package main.fertigungKomponente.dataAccessLayer;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,15 +13,17 @@ public class Fertigungsauftrag {
 
 	@Id
 	@GeneratedValue
-	@Column(name = "AUFTRAG_ID")
-	private int auftragsNr;
-	
-	@OneToOne(cascade=CascadeType.ALL)
+	@Column(name = "FERTIGUNGSAUFTRAG_ID")
+	private int fertigungsauftragsNr;
+
+	@OneToOne
 	private Bauteil bauteil;
 
-	
-	public int getAuftragsNr() {
-		return auftragsNr;
+	@Column(name = "AUFTRAG_ID")
+	private int auftragNr;
+
+	public int getFertigungsauftragsNr() {
+		return fertigungsauftragsNr;
 	}
 
 	public Bauteil getBauteil() {
@@ -31,6 +32,14 @@ public class Fertigungsauftrag {
 
 	public void setBauteil(Bauteil bauteil) {
 		this.bauteil = bauteil;
+	}
+
+	public int getAuftragNr() {
+		return auftragNr;
+	}
+
+	public void setAuftragNr(int auftragNr) {
+		this.auftragNr = auftragNr;
 	}
 
 }

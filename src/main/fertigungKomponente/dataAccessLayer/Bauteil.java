@@ -31,7 +31,6 @@ public class Bauteil {
 	@OneToOne
 	private Stueckliste stueckliste;
 	
-	
 	public int getBauteilNr() {
 		return bauteilNr;
 	}

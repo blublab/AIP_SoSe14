@@ -54,10 +54,6 @@ public class Angebot {
 		return angebotNr;
 	}
 
-	public void setAngebotNr(int angebotNr) {
-		this.angebotNr = angebotNr;
-	}
-
 	public Date getGueltigAb() {
 		return gueltigAb;
 	}

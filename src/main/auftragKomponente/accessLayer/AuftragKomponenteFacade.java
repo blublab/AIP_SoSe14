@@ -10,7 +10,7 @@ import main.auftragKomponente.dataAccessLayer.Auftrag;
 import main.fertigungKomponente.accessLayer.IFertigungServicesFuerAuftrag;
 import main.util.GenericDAO;
 
-public class AuftragKomponenteFacade implements IAuftragServices {
+public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServicesFuerFertigung {
 
 	private AuftragKomponenteBusinessLogic aKBL;
 	private GenericDAO<Auftrag> auftragDAO;
@@ -46,6 +46,8 @@ public class AuftragKomponenteFacade implements IAuftragServices {
 	public void nimmAngebotAn(Angebot angebot)
 			throws InvalidAngebotStatusException {
 		assert angebot != null;
+		
+		//TODO pr¸fen, ob Angebot abgelaufen ist -> falls ja, Status auf abgelaufen ‰ndern
 		if (angebot.getStatus() != Angebot.StatusTyp.ANGELEGT) {
 			throw new InvalidAngebotStatusException();
 		}
@@ -71,5 +73,30 @@ public class AuftragKomponenteFacade implements IAuftragServices {
 		angebot.setStatus(StatusTyp.ANGELEGT);
 		angebotDAO.create(angebot);
 		return angebot;
+	}
+
+	@Override
+	public int getBauteilVonAuftrag(int auftragNr) {
+		assert auftragNr > 0;
+		
+		Auftrag auftrag = auftragDAO.read(auftragNr);
+		Angebot angebot = auftrag.getAngebot();
+		return angebot.getBauteilNr();
+	}
+
+	@Override
+	public void notifyFertigungAbgeschlossen(int auftragNr) {
+		assert auftragNr > 0;
+		
+		Auftrag auftrag = auftragDAO.read(auftragNr);
+		auftrag.setIstAbgeschlossen(true);
+		
+		//TODO Rechnung erstellen
+		//TODO Lieferung anstoﬂen
+
+		Angebot angebot = auftrag.getAngebot();
+		angebot.setStatus(StatusTyp.AGESCHLOSSEN);
+		auftragDAO.update(auftrag);
+		angebotDAO.update(angebot);
 	}
 }

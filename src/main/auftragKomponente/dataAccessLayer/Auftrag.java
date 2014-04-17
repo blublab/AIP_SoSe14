@@ -40,10 +40,6 @@ public class Auftrag {
 		return auftragsNr;
 	}
 
-	public void setAuftragsNr(int auftragsNr) {
-		this.auftragsNr = auftragsNr;
-	}
-
 	public boolean isIstAbgeschlossen() {
 		return istAbgeschlossen;
 	}
