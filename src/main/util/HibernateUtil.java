@@ -19,7 +19,7 @@ public class HibernateUtil {
 		// configuration.setProperty("connection.url",
 		// "jdbc:mysql://localhost:3306/test");
 		// configuration.setProperty("connection.username", "root");
-		// configuration.setProperty("connection.password", "root");
+	  	// configuration.setProperty("connection.password", "root");
 		// configuration.setProperty("connection.driver_class",
 		// "com.mysql.jdbc.Driver");
 		// configuration.setProperty("dialect",
