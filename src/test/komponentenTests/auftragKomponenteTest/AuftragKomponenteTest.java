@@ -1,5 +1,7 @@
 package test.komponentenTests.auftragKomponenteTest;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Date;
 
 import main.auftragKomponente.dataAccessLayer.Auftrag;
@@ -19,7 +21,6 @@ public class AuftragKomponenteTest {
 		a1 = new Auftrag();
 		a1.setBeauftragtAm(new Date());
 		a1.setIstAbgeschlossen(false);
-		
 		a2 = new Auftrag();
 		a2.setBeauftragtAm(new Date());
 		a2.setIstAbgeschlossen(true);
@@ -31,9 +32,13 @@ public class AuftragKomponenteTest {
 	}
 
 	@Test
-	public void testCreateAuftrag() {
+	public void testCreateAuftragSuccess() {
 		auftragDAO.create(a1);
 		auftragDAO.create(a2);
-		assert true;
+		Auftrag a1r = auftragDAO.read(a1.getAuftragsNr());
+		assertEquals(a1.getAuftragsNr(), a1r.getAuftragsNr());
+		Auftrag a2r = auftragDAO.read(a2.getAuftragsNr());
+
+		assertEquals(a2, a2r);
 	}
 }
