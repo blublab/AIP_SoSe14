@@ -1,4 +1,4 @@
-package test.auftragKomponenteTest;
+package test.komponentenTests.auftragKomponenteTest;
 
 import java.util.Date;
 
