@@ -1,5 +1,6 @@
 package main.util;
 
+import main.auftragKomponente.dataAccessLayer.Angebot;
 import main.auftragKomponente.dataAccessLayer.Auftrag;
 
 import org.hibernate.SessionFactory;
@@ -19,7 +20,7 @@ public class HibernateUtil {
 		// configuration.setProperty("connection.url",
 		// "jdbc:mysql://localhost:3306/test");
 		// configuration.setProperty("connection.username", "root");
-	  	// configuration.setProperty("connection.password", "root");
+		// configuration.setProperty("connection.password", "root");
 		// configuration.setProperty("connection.driver_class",
 		// "com.mysql.jdbc.Driver");
 		// configuration.setProperty("dialect",
@@ -29,17 +30,18 @@ public class HibernateUtil {
 
 		// AuftragKomponente
 		configuration.addAnnotatedClass(Auftrag.class);
+		configuration.addAnnotatedClass(Angebot.class);
 
 		// End configuration
 
 		// <debug>
-//		configuration.buildMappings();
-//		Iterator<PersistentClass> it = configuration.getClassMappings();
-//		while (it.hasNext()) {
-//			PersistentClass e = it.next();
-//			System.out.println(e);
-//			System.out.println(e.getTable());
-//		}
+		// configuration.buildMappings();
+		// Iterator<PersistentClass> it = configuration.getClassMappings();
+		// while (it.hasNext()) {
+		// PersistentClass e = it.next();
+		// System.out.println(e);
+		// System.out.println(e.getTable());
+		// }
 		// </debug>
 
 		configuration.configure("hibernate.cfg.xml");
