@@ -81,6 +81,10 @@ public class FertigungKomponenteTest {
 	}
 	
 //	@Test
-//	public void testCreate
+//	public void testCreateFertigungsplan(){
+//		//Create Fertigungsplan
+//		Fertigungsplan fp1 = new Fertigungsplan();
+//		
+//	}
 
 }
