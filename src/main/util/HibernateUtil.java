@@ -2,6 +2,12 @@ package main.util;
 
 import main.auftragKomponente.dataAccessLayer.Angebot;
 import main.auftragKomponente.dataAccessLayer.Auftrag;
+import main.fertigungKomponente.dataAccessLayer.Bauteil;
+import main.fertigungKomponente.dataAccessLayer.Fertigungsauftrag;
+import main.fertigungKomponente.dataAccessLayer.Fertigungsplan;
+import main.fertigungKomponente.dataAccessLayer.Stueckliste;
+import main.fertigungKomponente.dataAccessLayer.Stuecklistenposition;
+import main.fertigungKomponente.dataAccessLayer.Vorgang;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
@@ -31,6 +37,16 @@ public class HibernateUtil {
 		// AuftragKomponente
 		configuration.addAnnotatedClass(Auftrag.class);
 		configuration.addAnnotatedClass(Angebot.class);
+
+		// FertigungsKomponente
+		configuration.addAnnotatedClass(Fertigungsauftrag.class);
+		configuration.addAnnotatedClass(Bauteil.class);
+
+		configuration.addAnnotatedClass(Fertigungsplan.class);
+		configuration.addAnnotatedClass(Vorgang.class);
+
+		configuration.addAnnotatedClass(Stueckliste.class);
+		configuration.addAnnotatedClass(Stuecklistenposition.class);
 
 		// End configuration
 

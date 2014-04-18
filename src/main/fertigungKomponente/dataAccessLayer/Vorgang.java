@@ -4,6 +4,8 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,9 +17,13 @@ public class Vorgang {
 	public enum ArtTyp {
 		BEREITSTELLUNG, MONTAGE
 	}
+	@Id
+	@GeneratedValue
+	@Column(name="VORGANG_ID")
+	private int vorgangNr;
 	
-	@Column(name = "VORGANGS_ART")
-	private Vorgang.ArtTyp vorgangsArt;
+	@Column(name = "VORGANG_ART")
+	private Vorgang.ArtTyp vorgangArt;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "RUESTZEIT")
@@ -31,12 +37,16 @@ public class Vorgang {
 	@Column(name = "PERSONEN_ZEIT")
 	private Date personenZeit;
 
+	public int getVorgangNr() {
+		return vorgangNr;
+	}
+
 	public Vorgang.ArtTyp getVorgangTyp() {
-		return vorgangsArt;
+		return vorgangArt;
 	}
 
 	public void setVorgangTyp(Vorgang.ArtTyp vorgangTyp) {
-		this.vorgangsArt = vorgangTyp;
+		this.vorgangArt = vorgangTyp;
 	}
 
 	public Date getRuestzeit() {
@@ -62,5 +72,54 @@ public class Vorgang {
 	public void setPersonenZeit(Date personenZeit) {
 		this.personenZeit = personenZeit;
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((maschienenZeit == null) ? 0 : maschienenZeit.hashCode());
+		result = prime * result
+				+ ((personenZeit == null) ? 0 : personenZeit.hashCode());
+		result = prime * result
+				+ ((ruestzeit == null) ? 0 : ruestzeit.hashCode());
+		result = prime * result
+				+ ((vorgangArt == null) ? 0 : vorgangArt.hashCode());
+		result = prime * result + vorgangNr;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Vorgang other = (Vorgang) obj;
+		if (maschienenZeit == null) {
+			if (other.maschienenZeit != null)
+				return false;
+		} else if (!maschienenZeit.equals(other.maschienenZeit))
+			return false;
+		if (personenZeit == null) {
+			if (other.personenZeit != null)
+				return false;
+		} else if (!personenZeit.equals(other.personenZeit))
+			return false;
+		if (ruestzeit == null) {
+			if (other.ruestzeit != null)
+				return false;
+		} else if (!ruestzeit.equals(other.ruestzeit))
+			return false;
+		if (vorgangArt != other.vorgangArt)
+			return false;
+		if (vorgangNr != other.vorgangNr)
+			return false;
+		return true;
+	}
+	
+
 
 }

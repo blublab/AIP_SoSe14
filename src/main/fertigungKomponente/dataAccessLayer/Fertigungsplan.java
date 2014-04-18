@@ -3,6 +3,7 @@ package main.fertigungKomponente.dataAccessLayer;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,8 +20,9 @@ public class Fertigungsplan {
 	@Column(name = "FERTIGUNGSPLAN_ID")
 	private int fertigungsplanNr;
 
-	@OneToMany
-	private LinkedHashSet<Vorgang> vorgang;
+	@Column(name ="VORGAENGE") //TODO:Verify if name appears somewhere
+	@OneToMany(cascade=CascadeType.ALL)
+	private Set<Vorgang> vorgang;
 
 	@OneToOne
 	private Bauteil bauteil;

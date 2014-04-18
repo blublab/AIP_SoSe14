@@ -22,12 +22,15 @@ public class Bauteil {
 	@Column(name = "NAME")
 	private String name;
 	
+	//@Column(name="FERTIGUNGSPLAN")
 	@OneToOne
 	private Fertigungsplan fertigungsplan;
 
+	@Column(name="STUECKLISTENPOSITIONEN")
 	@OneToMany
 	private List<Stuecklistenposition> stuecklistenposition;
 	
+	//@Column(name="STUECKLISTE")
 	@OneToOne
 	private Stueckliste stueckliste;
 	
@@ -43,28 +46,28 @@ public class Bauteil {
 		this.name = name;
 	}
 
-	public Fertigungsplan getFertigungsplan() {
-		return fertigungsplan;
-	}
-
-	public void setFertigungsplan(Fertigungsplan fertigungsplan) {
-		this.fertigungsplan = fertigungsplan;
-	}
-
-	public List<Stuecklistenposition> getStuecklistenposition() {
-		return stuecklistenposition;
-	}
-
-	public void setStuecklistenposition(List<Stuecklistenposition> stuecklistenposition) {
-		this.stuecklistenposition = stuecklistenposition;
-	}
-
-
-	public Stueckliste getStueckliste() {
-		return stueckliste;
-	}
-
-	public void setStueckliste(Stueckliste stueckliste) {
-		this.stueckliste = stueckliste;
-	}
+//	public Fertigungsplan getFertigungsplan() {
+//		return fertigungsplan;
+//	}
+//
+//	public void setFertigungsplan(Fertigungsplan fertigungsplan) {
+//		this.fertigungsplan = fertigungsplan;
+//	}
+//
+//	public List<Stuecklistenposition> getStuecklistenposition() {
+//		return stuecklistenposition;
+//	}
+//
+//	public void setStuecklistenposition(List<Stuecklistenposition> stuecklistenposition) {
+//		this.stuecklistenposition = stuecklistenposition;
+//	}
+//
+//
+//	public Stueckliste getStueckliste() {
+//		return stueckliste;
+//	}
+//
+//	public void setStueckliste(Stueckliste stueckliste) {
+//		this.stueckliste = stueckliste;
+//	}
 }
