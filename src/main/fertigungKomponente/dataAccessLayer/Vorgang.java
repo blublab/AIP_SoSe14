@@ -1,5 +1,6 @@
 package main.fertigungKomponente.dataAccessLayer;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -98,20 +99,38 @@ public class Vorgang {
 		if (getClass() != obj.getClass())
 			return false;
 		Vorgang other = (Vorgang) obj;
+		
+		Timestamp tsMZ = new Timestamp(maschienenZeit.getTime());
+		tsMZ.setNanos(0);
+		Timestamp otherTSMZ = new Timestamp(other.maschienenZeit.getTime());
+		otherTSMZ.setNanos(0);
+		
 		if (maschienenZeit == null) {
 			if (other.maschienenZeit != null)
 				return false;
-		} else if (!maschienenZeit.equals(other.maschienenZeit))
+		} else if (tsMZ.compareTo(otherTSMZ) != 0)
 			return false;
+		
+		Timestamp tsPZ = new Timestamp(personenZeit.getTime());
+		tsPZ.setNanos(0);
+		Timestamp otherTSPZ = new Timestamp(other.personenZeit.getTime());
+		otherTSPZ.setNanos(0);
+		
 		if (personenZeit == null) {
 			if (other.personenZeit != null)
 				return false;
-		} else if (!personenZeit.equals(other.personenZeit))
+		} else if (tsPZ.compareTo(otherTSPZ) != 0)
 			return false;
+		
+		Timestamp tsRZ = new Timestamp(ruestzeit.getTime());
+		tsRZ.setNanos(0);
+		Timestamp otherTSRZ = new Timestamp(other.ruestzeit.getTime());
+		otherTSRZ.setNanos(0);
+		
 		if (ruestzeit == null) {
 			if (other.ruestzeit != null)
 				return false;
-		} else if (!ruestzeit.equals(other.ruestzeit))
+		} else if (tsRZ.compareTo(otherTSRZ)!=0)
 			return false;
 		if (vorgangArt != other.vorgangArt)
 			return false;

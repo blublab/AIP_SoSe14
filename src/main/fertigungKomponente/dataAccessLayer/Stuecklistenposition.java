@@ -14,12 +14,16 @@ public class Stuecklistenposition {
 	@Column(name="STUECKLISTENPOSITIOn_ID")
 	private int stuecklistpositionNr;
 	
-	
 	@Column(name = "NAME")
 	private String name;
 	
 	@Column(name = "MENGE")
 	private int menge;
+	
+	
+	public int getStuecklistpositionNr() {
+		return stuecklistpositionNr;
+	}
 
 	public String getName() {
 		return name;

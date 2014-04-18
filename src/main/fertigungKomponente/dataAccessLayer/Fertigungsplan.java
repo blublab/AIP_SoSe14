@@ -47,4 +47,38 @@ public class Fertigungsplan {
 		this.bauteil = bauteil;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((bauteil == null) ? 0 : bauteil.hashCode());
+		result = prime * result + fertigungsplanNr;
+		result = prime * result + ((vorgang == null) ? 0 : vorgang.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Fertigungsplan other = (Fertigungsplan) obj;
+		if (bauteil == null) {
+			if (other.bauteil != null)
+				return false;
+		} else if (!bauteil.equals(other.bauteil))
+			return false;
+		if (fertigungsplanNr != other.fertigungsplanNr)
+			return false;
+		if (vorgang == null) {
+			if (other.vorgang != null)
+				return false;
+		} else if (!vorgang.equals(other.vorgang))
+			return false;
+		return true;
+	}
+
 }
