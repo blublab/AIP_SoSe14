@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -21,7 +22,7 @@ public class Fertigungsplan {
 	private int fertigungsplanNr;
 
 	@Column(name ="VORGAENGE") //TODO:Verify if name appears somewhere
-	@OneToMany(cascade=CascadeType.ALL)
+	@OneToMany(fetch=FetchType.EAGER)
 	private Set<Vorgang> vorgang;
 
 	@OneToOne
