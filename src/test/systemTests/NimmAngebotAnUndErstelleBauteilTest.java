@@ -46,7 +46,7 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		fertigungFacade.setAuftragServices(auftragServicesFuerFertigung);
 	}
 
-	//Fills Database (only once)
+	//Fills Database
 	@BeforeClass
 	public static void fillDatabase() {
 		System.out.println("Initializing DB ...");
@@ -86,22 +86,22 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		v2.setRuestzeit(new Date());
 		vorgangDAO.create(v2); // create vorgang
 		Vorgang v3 = new Vorgang();
-		v2.setVorgangTyp(ArtTyp.BEREITSTELLUNG);
-		v2.setMaschienenZeit(new Date());
-		v2.setPersonenZeit(new Date());
-		v2.setRuestzeit(new Date());
+		v3.setVorgangTyp(ArtTyp.BEREITSTELLUNG);
+		v3.setMaschienenZeit(new Date());
+		v3.setPersonenZeit(new Date());
+		v3.setRuestzeit(new Date());
 		vorgangDAO.create(v3); // create vorgang
 		Vorgang v4 = new Vorgang();
-		v2.setVorgangTyp(ArtTyp.BEREITSTELLUNG);
-		v2.setMaschienenZeit(new Date());
-		v2.setPersonenZeit(new Date());
-		v2.setRuestzeit(new Date());
+		v4.setVorgangTyp(ArtTyp.BEREITSTELLUNG);
+		v4.setMaschienenZeit(new Date());
+		v4.setPersonenZeit(new Date());
+		v4.setRuestzeit(new Date());
 		vorgangDAO.create(v4); // create vorgang
 		Vorgang v5 = new Vorgang();
-		v2.setVorgangTyp(ArtTyp.MONTAGE);
-		v2.setMaschienenZeit(new Date());
-		v2.setPersonenZeit(new Date());
-		v2.setRuestzeit(new Date());
+		v5.setVorgangTyp(ArtTyp.MONTAGE);
+		v5.setMaschienenZeit(new Date());
+		v5.setPersonenZeit(new Date());
+		v5.setRuestzeit(new Date());
 		vorgangDAO.create(v5); // create vorgang
 		Fertigungsplan fp2 = new Fertigungsplan();
 		fp2.addVorgang(v2);
@@ -175,7 +175,36 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 	}
 	
 	@Test
-	public void testNimmAngebotAnUndErstelleKomplexesBauteilTestSuccess() {
-		//TODO	
+	public void testNimmAngebotAnUndErstelleKomplexesBauteilTestSuccess() throws InvalidAngebotStatusException {
+		Angebot angebot = auftragServices.createAngebot(1, 2); // creats angebot for customer "1" for bauteil "2" (complex)
+		System.out.println("Folgendes Angebot wurde erstellt: ");
+		System.out.println(angebot + "\n");
+		System.out.println("Der Status von Angebot Nummer " + angebot.getAngebotNr() + " wurde auf " + angebot.getStatus() + " gesetz. \n");
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
+
+		System.out.println("Der Kunde hat das Angebot Nummer " + angebot.getAngebotNr() + " angenommen. \n");
+		auftragServices.nimmAngebotAn(angebot); // sets status to ANGENOMMEN
+		System.out.println("Der Status von Angebot Nummer " + angebot.getAngebotNr() + " wurde auf " + angebot.getStatus() + " gesetz. \n");
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
+		
+		Auftrag auftrag = auftragServices.createAuftragFuerAngebot(angebot); // creates auftrag for angebot
+		System.out.println("Folgender Auftrag wurde für das Angebot Nr. " + angebot.getAngebotNr() + " erstellt :");
+		System.out.println(auftrag + "\n");
+		System.out.println("Folgender Fertigungsauftrag wurde für den Auftrag Nr. " + auftrag.getAuftragsNr() + " erstellt: ");
+		Fertigungsauftrag fertigungsauftrag = fertigungServices.readFertigungsauftragById(auftrag.getFertigungsauftragNr()); // gets fertigungsauftrag for auftrag
+		System.out.println(fertigungsauftrag + "\n");
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
+
+		System.out.println("Der Fertigungsauftrag Nr. " + fertigungsauftrag.getFertigungsauftragsNr() + " wurde gestartet. \n");
+		fertigungServices.starteFertigungsauftrag(fertigungsauftrag); // starts fertigungsauftrag
+		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
+
+		fertigungServices.completeFertigungsauftrag(fertigungsauftrag); // Produktionsmitarbeiter completes fertigungsuaftrag
+		angebot = auftragServices.readAngebotById(angebot.getAngebotNr());
+		auftrag = auftragServices.readAuftragById(auftrag.getAuftragsNr());
+		System.out.println("Der Status von Angebot Nummer " + angebot.getAngebotNr() + " wurde auf " + angebot.getStatus() + " gesetz. \n");
+
+		assertEquals(angebot.getStatus(), Angebot.StatusTyp.AGESCHLOSSEN);
+		assertEquals(auftrag.getIstAbgeschlossen(), true);
 	}
 }

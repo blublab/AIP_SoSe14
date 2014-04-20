@@ -75,7 +75,7 @@ public class FertigungKomponenteFacade implements IFertigungServices,
 	private void notifyProduktionsmitarbeiter(
 			Fertigungsauftrag fertigungsauftrag) {
 		// *tuuuut *tuuuut* ...
-		System.out.println("Ein Produktionsmitarbeiter wurde benachrichtigt.");
+		System.out.println("Ein Produktionsmitarbeiter wurde benachrichtigt. \n");
 	}
 
 	@Override

@@ -7,6 +7,7 @@ public interface IFertigungServicesFuerAuftrag {
 	/**
 	 * Erstellt Fertigungsauftrag für den Auftrag
 	 * @param auftragNr ID des Auftrages
+	 * @return Fertigungsauftrag ID
 	 * @throws AuftragServicesNotSetException 
 	 */
 	public int erstelleFertigungsauftragFuerAuftrag(int auftragNr) throws AuftragServicesNotSetException;
