@@ -5,9 +5,9 @@ import main.fertigungKomponente.accessLayer.Exceptions.AuftragServicesNotSetExce
 public interface IFertigungServicesFuerAuftrag {
 
 	/**
-	 * Setzt den übergebenen Auftrag um.
+	 * Erstellt Fertigungsauftrag für den Auftrag
 	 * @param auftragNr ID des Auftrages
 	 * @throws AuftragServicesNotSetException 
 	 */
-	public void setzeAuftragUm(int auftragNr) throws AuftragServicesNotSetException;
+	public int erstelleFertigungsauftragFuerAuftrag(int auftragNr) throws AuftragServicesNotSetException;
 }

@@ -62,7 +62,7 @@ public class AuftragKomponenteTest {
 			throws InvalidAngebotStatusException, AuftragServicesNotSetException {
 		context.checking(new Expectations() {
 			{
-				oneOf(fertigungServicesMock).setzeAuftragUm(0);
+				oneOf(fertigungServicesMock).erstelleFertigungsauftragFuerAuftrag(0);
 			}
 		});
 		Angebot angebot = auftragSerivces.createAngebot(2, 42);

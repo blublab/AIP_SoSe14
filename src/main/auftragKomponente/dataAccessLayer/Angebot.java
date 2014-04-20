@@ -109,6 +109,16 @@ public class Angebot {
 	public void setBauteilNr(int bauteilNr) {
 		BauteilNr = bauteilNr;
 	}
+	
+	
+
+	@Override
+	public String toString() {
+		return "Angebot [angebotNr=" + angebotNr + ", gueltigAb=" + gueltigAb
+				+ ", gueltigBis=" + gueltigBis + ", preis=" + preis
+				+ ", status=" + status + ", kundenNr=" + kundenNr
+				+ ", BauteilNr=" + BauteilNr + "]";
+	}
 
 	@Override
 	public int hashCode() {

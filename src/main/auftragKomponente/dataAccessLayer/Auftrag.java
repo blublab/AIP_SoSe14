@@ -35,12 +35,15 @@ public class Auftrag {
 
 	@Column(name = "LIEFERUNG_ID")
 	private int lieferungsNr;
+	
+	@Column(name = "FERTIGUNGSAUFTRAG_ID")
+	private int fertigungsauftragNr;
 
 	public int getAuftragsNr() {
 		return auftragsNr;
 	}
 
-	public boolean isIstAbgeschlossen() {
+	public boolean getIstAbgeschlossen() {
 		return istAbgeschlossen;
 	}
 
@@ -80,6 +83,20 @@ public class Auftrag {
 		this.lieferungsNr = lieferungsNr;
 	}
 
+	public int getFertigungsauftragNr() {
+		return fertigungsauftragNr;
+	}
+
+	public void setFertigungsauftragNr(int fertigungsauftragNr) {
+		this.fertigungsauftragNr = fertigungsauftragNr;
+	}
+
+	@Override
+	public String toString() {
+		return "Auftrag [auftragsNr=" + auftragsNr + ", istAbgeschlossen="
+				+ istAbgeschlossen + ", beauftragtAm=" + beauftragtAm + "]";
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -91,6 +108,7 @@ public class Auftrag {
 		result = prime * result + (istAbgeschlossen ? 1231 : 1237);
 		result = prime * result + kundenrechnungsNr;
 		result = prime * result + lieferungsNr;
+		result = prime * result + fertigungsauftragNr;
 		return result;
 	}
 
@@ -124,6 +142,8 @@ public class Auftrag {
 		if (kundenrechnungsNr != other.kundenrechnungsNr)
 			return false;
 		if (lieferungsNr != other.lieferungsNr)
+			return false;
+		if (fertigungsauftragNr != other.fertigungsauftragNr)
 			return false;
 		return true;
 	}

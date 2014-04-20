@@ -1,9 +1,8 @@
 package main.fertigungKomponente.dataAccessLayer;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -21,9 +20,8 @@ public class Fertigungsplan {
 	@Column(name = "FERTIGUNGSPLAN_ID")
 	private int fertigungsplanNr;
 
-	@Column(name ="VORGAENGE") //TODO:Verify if name appears somewhere
 	@OneToMany(fetch=FetchType.EAGER)
-	private Set<Vorgang> vorgang;
+	private List<Vorgang> vorgaenge;
 
 	@OneToOne
 	private Bauteil bauteil;
@@ -32,12 +30,12 @@ public class Fertigungsplan {
 		return fertigungsplanNr;
 	}
 
-	public Set<Vorgang> getVorgang() {
-		return vorgang;
+	public List<Vorgang> getVorgaenge() {
+		return vorgaenge;
 	}
 
-	public void setVorgang(LinkedHashSet<Vorgang> vorgang) {
-		this.vorgang = vorgang;
+	public void setVorgaenge(List<Vorgang> vorgang) {
+		this.vorgaenge = vorgang;
 	}
 
 	public Bauteil getBauteil() {
@@ -47,6 +45,15 @@ public class Fertigungsplan {
 	public void setBauteil(Bauteil bauteil) {
 		this.bauteil = bauteil;
 	}
+	
+	public Fertigungsplan() {
+		this.vorgaenge = new ArrayList<Vorgang>();
+	}
+	
+	public boolean addVorgang(Vorgang v) {
+		assert v != null;
+		return this.vorgaenge.add(v);
+	}
 
 	@Override
 	public int hashCode() {
@@ -54,7 +61,7 @@ public class Fertigungsplan {
 		int result = 1;
 		result = prime * result + ((bauteil == null) ? 0 : bauteil.hashCode());
 		result = prime * result + fertigungsplanNr;
-		result = prime * result + ((vorgang == null) ? 0 : vorgang.hashCode());
+		result = prime * result + ((vorgaenge == null) ? 0 : vorgaenge.hashCode());
 		return result;
 	}
 
@@ -74,11 +81,22 @@ public class Fertigungsplan {
 			return false;
 		if (fertigungsplanNr != other.fertigungsplanNr)
 			return false;
-		if (vorgang == null) {
-			if (other.vorgang != null)
+		if (vorgaenge == null) {
+			if (other.vorgaenge != null)
 				return false;
-		} else if (!vorgang.equals(other.vorgang))
+		} else if (!compareVorgaenge(other.getVorgaenge()))
 			return false;
+		return true;
+	}
+	
+	private boolean compareVorgaenge(List<Vorgang> other) {
+		int i = 0;
+		for (Vorgang v : vorgaenge) {
+			if(!v.equals(other.get(i))) {
+				return false;
+			}
+			i++;
+		}
 		return true;
 	}
 

@@ -35,10 +35,12 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 		auftrag.setIstAbgeschlossen(false);
 		auftrag.setAngebot(angebot);
 		auftrag.setBeauftragtAm(new Date());
-		aKBL.erstelleFertigungsauftragFuerAuftrag(auftrag);
 		angebot.setAuftrag(auftrag);
 		auftragDAO.create(auftrag);
 		angebotDAO.update(angebot);
+		int fertigungsauftragNr = aKBL.erstelleFertigungsauftragFuerAuftrag(auftrag);
+		auftrag.setFertigungsauftragNr(fertigungsauftragNr);
+		auftragDAO.update(auftrag);
 		return auftrag;
 	}
 
@@ -92,11 +94,27 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 		auftrag.setIstAbgeschlossen(true);
 		
 		//TODO Rechnung erstellen
+		System.out.println("Eine Rechnung für den Kunden wurde erstellt.");
 		//TODO Lieferung anstoßen
+		System.out.println("Die Lieferung wurde beauftrag.");
 
 		Angebot angebot = auftrag.getAngebot();
 		angebot.setStatus(StatusTyp.AGESCHLOSSEN);
 		auftragDAO.update(auftrag);
 		angebotDAO.update(angebot);
+	}
+
+	@Override
+	public Angebot readAngebotById(int angebotNr) {
+		assert angebotNr > 0;
+		
+		return angebotDAO.read(angebotNr);
+	}
+
+	@Override
+	public Auftrag readAuftragById(int auftragNr) {
+		assert auftragNr > 0;
+		
+		return auftragDAO.read(auftragNr);
 	}
 }

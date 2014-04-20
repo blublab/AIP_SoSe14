@@ -1,9 +1,11 @@
 package main.fertigungKomponente.dataAccessLayer;
 
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -25,9 +27,8 @@ public class Bauteil {
 	@OneToOne
 	private Fertigungsplan fertigungsplan;
 
-	@Column(name="STUECKLISTENPOSITIONEN", nullable=true)
-	@OneToMany
-	private List<Stuecklistenposition> stuecklistenposition;
+	@OneToMany(fetch=FetchType.EAGER)
+	private Set<Stuecklistenposition> stuecklistenposition;
 	
 	@OneToOne
 	private Stueckliste stueckliste;
@@ -52,11 +53,11 @@ public class Bauteil {
 		this.fertigungsplan = fertigungsplan;
 	}
 
-	public List<Stuecklistenposition> getStuecklistenposition() {
+	public Set<Stuecklistenposition> getStuecklistenposition() {
 		return stuecklistenposition;
 	}
 
-	public void setStuecklistenposition(List<Stuecklistenposition> stuecklistenposition) {
+	public void setStuecklistenposition(Set<Stuecklistenposition> stuecklistenposition) {
 		this.stuecklistenposition = stuecklistenposition;
 	}
 
@@ -67,6 +68,10 @@ public class Bauteil {
 
 	public void setStueckliste(Stueckliste stueckliste) {
 		this.stueckliste = stueckliste;
+	}
+	
+	public Bauteil() {
+		this.stuecklistenposition = new HashSet<Stuecklistenposition>();
 	}
 
 	@Override
@@ -100,7 +105,7 @@ public class Bauteil {
 		if (fertigungsplan == null) {
 			if (other.fertigungsplan != null)
 				return false;
-		} else if (!fertigungsplan.equals(other.fertigungsplan))
+		} else if (fertigungsplan.getFertigungsplanNr() != other.fertigungsplan.getFertigungsplanNr())
 			return false;
 		if (name == null) {
 			if (other.name != null)
@@ -115,8 +120,17 @@ public class Bauteil {
 		if (stuecklistenposition == null) {
 			if (other.stuecklistenposition != null)
 				return false;
-		} else if (!stuecklistenposition.equals(other.stuecklistenposition))
+		} else if (!checkStuecklistenposition(other.getStuecklistenposition()))
 			return false;
 		return true;
+	}
+	
+	private boolean checkStuecklistenposition(Set<Stuecklistenposition> other) {
+		if(stuecklistenposition.size() != other.size()) {
+			return false;
+		}
+		Set<Stuecklistenposition> commonSet = new HashSet<Stuecklistenposition>(stuecklistenposition);
+		commonSet.retainAll(other);
+		return commonSet.size() == stuecklistenposition.size();
 	}
 }

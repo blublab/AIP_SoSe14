@@ -28,4 +28,18 @@ public interface IAuftragServices {
 	 * @param bauteilNr ID des Bauteils
 	 */
 	public Angebot createAngebot(int kundenNr, int bauteilNr);
+	
+	/**
+	 * Liefert das Angebot zur ID
+	 * @param angebotNr
+	 * @return Angebot
+	 */
+	public Angebot readAngebotById(int angebotNr);
+	
+	/**
+	 * Liefert das Auftrag zur ID
+	 * @param angebotNr
+	 * @return Auftrag
+	 */
+	public Auftrag readAuftragById(int auftragNr);
 }

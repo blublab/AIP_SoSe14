@@ -100,45 +100,40 @@ public class Vorgang {
 			return false;
 		Vorgang other = (Vorgang) obj;
 		
-		Timestamp tsMZ = new Timestamp(maschienenZeit.getTime());
-		tsMZ.setNanos(0);
-		Timestamp otherTSMZ = new Timestamp(other.maschienenZeit.getTime());
-		otherTSMZ.setNanos(0);
-		
+		Timestamp tsMaschienenZeit = new Timestamp(maschienenZeit.getTime());
+		tsMaschienenZeit.setNanos(0);
+		Timestamp otherTSMaschienenZeit = new Timestamp(other.maschienenZeit.getTime());
+		otherTSMaschienenZeit.setNanos(0);
 		if (maschienenZeit == null) {
 			if (other.maschienenZeit != null)
 				return false;
-		} else if (tsMZ.compareTo(otherTSMZ) != 0)
+		} else if (tsMaschienenZeit.compareTo(otherTSMaschienenZeit) != 0)
 			return false;
 		
-		Timestamp tsPZ = new Timestamp(personenZeit.getTime());
-		tsPZ.setNanos(0);
-		Timestamp otherTSPZ = new Timestamp(other.personenZeit.getTime());
-		otherTSPZ.setNanos(0);
-		
+		Timestamp tsPersonenZeit = new Timestamp(personenZeit.getTime());
+		tsPersonenZeit.setNanos(0);
+		Timestamp otherTSPersonenZeit = new Timestamp(other.personenZeit.getTime());
+		otherTSPersonenZeit.setNanos(0);
 		if (personenZeit == null) {
 			if (other.personenZeit != null)
 				return false;
-		} else if (tsPZ.compareTo(otherTSPZ) != 0)
+		} else if (tsPersonenZeit.compareTo(otherTSPersonenZeit) != 0)
 			return false;
 		
-		Timestamp tsRZ = new Timestamp(ruestzeit.getTime());
-		tsRZ.setNanos(0);
-		Timestamp otherTSRZ = new Timestamp(other.ruestzeit.getTime());
-		otherTSRZ.setNanos(0);
-		
+		Timestamp tsRuestZeit = new Timestamp(ruestzeit.getTime());
+		tsRuestZeit.setNanos(0);
+		Timestamp otherTSRuestZeit = new Timestamp(other.ruestzeit.getTime());
+		otherTSRuestZeit.setNanos(0);
 		if (ruestzeit == null) {
 			if (other.ruestzeit != null)
 				return false;
-		} else if (tsRZ.compareTo(otherTSRZ)!=0)
+		} else if (tsRuestZeit.compareTo(otherTSRuestZeit) != 0)
 			return false;
+		
 		if (vorgangArt != other.vorgangArt)
 			return false;
 		if (vorgangNr != other.vorgangNr)
 			return false;
 		return true;
 	}
-	
-
-
 }

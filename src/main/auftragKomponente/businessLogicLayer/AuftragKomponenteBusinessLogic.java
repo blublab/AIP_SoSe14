@@ -13,18 +13,14 @@ public class AuftragKomponenteBusinessLogic {
 		this.fertigungServices = fertigungServices;
 	}
 
-	public void erstelleFertigungsauftragFuerAuftrag(Auftrag auftrag) {
-//		int fertigungsauftragsNr = fertigungServices.setzeAuftragUm(auftrag
-//				.getAuftragsNr());
-//		assert fertigungsauftragsNr > 0;
-//		auftrag.setFertigungsauftragsNr(fertigungsauftragsNr);
-//		return auftrag;
-		
+	public int erstelleFertigungsauftragFuerAuftrag(Auftrag auftrag) {
+		int fertigungsauftragNr = 0;
 		try {
-			fertigungServices.setzeAuftragUm(auftrag.getAuftragsNr());
+			fertigungsauftragNr = fertigungServices.erstelleFertigungsauftragFuerAuftrag(auftrag.getAuftragsNr());
 		} catch (AuftragServicesNotSetException e) {
 			System.err.println("FertigungsServices wasn't initiatet properly.");
 			e.printStackTrace();
 		}
+		return fertigungsauftragNr;
 	}
 }

@@ -1,11 +1,10 @@
 package test.komponentenTests.fertigungKomponenteTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedHashSet;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import main.fertigungKomponente.dataAccessLayer.Bauteil;
 import main.fertigungKomponente.dataAccessLayer.Fertigungsauftrag;
@@ -15,13 +14,11 @@ import main.fertigungKomponente.dataAccessLayer.Stuecklistenposition;
 import main.fertigungKomponente.dataAccessLayer.Vorgang;
 import main.util.GenericDAO;
 
-import org.jmock.Mockery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class FertigungKomponenteTest {
-	Mockery context;
 	GenericDAO<Fertigungsauftrag> fertigungsauftragDAO;
 	GenericDAO<Bauteil> bauteilDAO;
 	GenericDAO<Stueckliste> stuecklisteDAO;
@@ -31,8 +28,6 @@ public class FertigungKomponenteTest {
 
 	@Before
 	public void setUp() throws Exception {
-		context = new Mockery(); // Mr. Yavuz crams
-
 		fertigungsauftragDAO = new GenericDAO<Fertigungsauftrag>(Fertigungsauftrag.class);
 		bauteilDAO = new GenericDAO<Bauteil>(Bauteil.class);
 		stuecklisteDAO = new GenericDAO<Stueckliste>(Stueckliste.class);
@@ -61,7 +56,7 @@ public class FertigungKomponenteTest {
 
 		// Read from DB and compare to origin
 		Fertigungsauftrag fa1r = fertigungsauftragDAO.read(fa1.getFertigungsauftragsNr());
-		// TODO: Why the hell does Bauteil.Stuecklistenposition has data in DB?!
+		
 		assertEquals(fa1, fa1r);
 		assertEquals(fa1.getBauteil(), fa1r.getBauteil());
 	}
@@ -90,18 +85,19 @@ public class FertigungKomponenteTest {
 	public void testCreateFertigungsplanWithOneVorgangSuccess() {
 		// Create Vorgang
 		Vorgang v1 = new Vorgang();
+		v1.setVorgangTyp(Vorgang.ArtTyp.BEREITSTELLUNG);
+		v1.setRuestzeit(new Date());
+		v1.setPersonenZeit(new Date());
+		v1.setMaschienenZeit(new Date());
 		vorgangDAO.create(v1);
-		LinkedHashSet<Vorgang> lhsV = new LinkedHashSet<>();
-		lhsV.add(v1);
-
+		
 		// Create Fertigungsplan and Set Vorgang to Fertigungsplan
 		Fertigungsplan fp1 = new Fertigungsplan();
-		fp1.setVorgang(lhsV);
+		fp1.addVorgang(v1);
 		fertigungsplanDAO.create(fp1);
 
 		// Read from DB and compare to origin
 		Fertigungsplan fp1r = fertigungsplanDAO.read(fp1.getFertigungsplanNr());
-		// TODO: Verify why Vorgang Set got different ID
 		assertEquals(fp1, fp1r);
 	}
 
@@ -115,7 +111,6 @@ public class FertigungKomponenteTest {
 
 		// Read from DB and compare to origin
 		Stuecklistenposition slp1r = stuecklistepositionDAO.read(slp1.getStuecklistpositionNr());
-		// TODO: Verify why slp1.name NOT euqual slp1r
 		assertEquals(slp1, slp1r);
 	}
 
@@ -125,7 +120,7 @@ public class FertigungKomponenteTest {
 		Stuecklistenposition slp1 = new Stuecklistenposition();
 		slp1.setMenge(123);
 		slp1.setName("Stücklistenposition für die Stueckliste");
-		List<Stuecklistenposition> lslp = new ArrayList<Stuecklistenposition>();
+		Set<Stuecklistenposition> lslp = new HashSet<Stuecklistenposition>();
 		lslp.add(slp1);
 		stuecklistepositionDAO.create(slp1);
 
@@ -138,7 +133,6 @@ public class FertigungKomponenteTest {
 
 		// Read from DB and compare to origin
 		Stueckliste sl1r = stuecklisteDAO.read(sl1.getStuecklistNr());
-		// TODO: Verify why Stuecklistenposition got different ID
 		assertEquals(sl1, sl1r);
 	}
 

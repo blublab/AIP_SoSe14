@@ -2,10 +2,12 @@ package main.fertigungKomponente.dataAccessLayer;
 
 import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -29,8 +31,12 @@ public class Stueckliste {
 	@Column(name = "GUELTIG_BIS")
 	private Date gueltigBis;
 
-	@OneToMany
-	private List<Stuecklistenposition> stuecklistenposition;
+	@OneToMany(fetch=FetchType.EAGER)
+	private Set<Stuecklistenposition> stuecklistenposition;
+	
+	public Stueckliste() {
+		this.stuecklistenposition = new HashSet<Stuecklistenposition>();
+	}
 
 	public int getStuecklistNr() {
 		return stuecklistNr;
@@ -52,13 +58,18 @@ public class Stueckliste {
 		this.gueltigBis = gueltigBis;
 	}
 
-	public List<Stuecklistenposition> getStuecklistenposition() {
+	public Set<Stuecklistenposition> getStuecklistenposition() {
 		return stuecklistenposition;
 	}
 
 	public void setStuecklistenposition(
-			List<Stuecklistenposition> stuecklistenposition) {
+			Set<Stuecklistenposition> stuecklistenposition) {
 		this.stuecklistenposition = stuecklistenposition;
+	}
+	
+	public boolean addStuecklistenposition(Stuecklistenposition slp) {
+		assert slp != null;
+		return stuecklistenposition.add(slp);
 	}
 
 	@Override
@@ -113,8 +124,17 @@ public class Stueckliste {
 		if (stuecklistenposition == null) {
 			if (other.stuecklistenposition != null)
 				return false;
-		} else if (!stuecklistenposition.equals(other.stuecklistenposition))
+		} else if (!checkStuecklistenposition(other.getStuecklistenposition()))
 			return false;
 		return true;
+	}
+	
+	private boolean checkStuecklistenposition(Set<Stuecklistenposition> other) {
+		if(stuecklistenposition.size() != other.size()) {
+			return false;
+		}
+		Set<Stuecklistenposition> commonSet = new HashSet<Stuecklistenposition>(stuecklistenposition);
+		commonSet.retainAll(other);
+		return commonSet.size() == stuecklistenposition.size();
 	}
 }
