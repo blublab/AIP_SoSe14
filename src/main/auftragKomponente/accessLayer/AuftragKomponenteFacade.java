@@ -94,9 +94,9 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 		auftrag.setIstAbgeschlossen(true);
 		
 		//TODO Rechnung erstellen
-		System.out.println("Eine Rechnung für den Kunden wurde erstellt.");
+		System.out.println("Eine Rechnung für den Kunden wurde erstellt. \n");
 		//TODO Lieferung anstoßen
-		System.out.println("Die Lieferung wurde beauftrag.");
+		System.out.println("Die Lieferung wurde beauftrag. \n");
 
 		Angebot angebot = auftrag.getAngebot();
 		angebot.setStatus(StatusTyp.AGESCHLOSSEN);

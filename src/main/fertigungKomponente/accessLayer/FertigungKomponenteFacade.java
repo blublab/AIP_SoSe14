@@ -40,6 +40,7 @@ public class FertigungKomponenteFacade implements IFertigungServices,
 		return fertigungsauftrag.getFertigungsauftragsNr();
 	}
 
+	@Override
 	public void setAuftragServices(IAuftragServicesFuerFertigung auftragServices) {
 		if (auftragServices != null) {
 			this.auftragServices = auftragServices;

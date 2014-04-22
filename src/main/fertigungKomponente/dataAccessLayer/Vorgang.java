@@ -13,7 +13,7 @@ import javax.persistence.TemporalType;
 
 @Entity
 @Table(name = "VORGANG")
-public class Vorgang {
+public class Vorgang implements Comparable<Vorgang>{
 
 	public enum ArtTyp {
 		BEREITSTELLUNG, MONTAGE
@@ -135,5 +135,11 @@ public class Vorgang {
 		if (vorgangNr != other.vorgangNr)
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(Vorgang o) {
+		// TODO Auto-generated method stub
+		return 0;
 	}
 }

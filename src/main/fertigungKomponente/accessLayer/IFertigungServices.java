@@ -1,5 +1,6 @@
 package main.fertigungKomponente.accessLayer;
 
+import main.auftragKomponente.accessLayer.IAuftragServicesFuerFertigung;
 import main.fertigungKomponente.dataAccessLayer.Fertigungsauftrag;
 
 public interface IFertigungServices {
@@ -22,4 +23,10 @@ public interface IFertigungServices {
 	 * @return Fertigungsauftrag
 	 */
 	public Fertigungsauftrag readFertigungsauftragById(int fertigungsauftragNr);
+
+	/**
+	 * Setzt IAuftragServicesFuerFertigung
+	 * @param auftragServices
+	 */
+	public void setAuftragServices(IAuftragServicesFuerFertigung auftragServices);
 }
