@@ -49,7 +49,7 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 			throws InvalidAngebotStatusException {
 		assert angebot != null;
 		
-		//TODO prüfen, ob Angebot abgelaufen ist -> falls ja, Status auf abgelaufen ändern
+		//TODO prï¿½fen, ob Angebot abgelaufen ist -> falls ja, Status auf abgelaufen ï¿½ndern
 		if (angebot.getStatus() != Angebot.StatusTyp.ANGELEGT) {
 			throw new InvalidAngebotStatusException();
 		}
@@ -60,8 +60,8 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 
 	@Override
 	public Angebot createAngebot(int kundenNr, int bauteilNr) {
-		// TODO Prüfen, ob Bauteil in DB?
-		// TODO Prüfen, ob Kunde in DB?
+		// TODO Prï¿½fen, ob Bauteil in DB?
+		// TODO Prï¿½fen, ob Kunde in DB?
 		assert kundenNr > 0;
 		assert bauteilNr > 0;
 
@@ -78,15 +78,6 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 	}
 
 	@Override
-	public int getBauteilVonAuftrag(int auftragNr) {
-		assert auftragNr > 0;
-		
-		Auftrag auftrag = auftragDAO.read(auftragNr);
-		Angebot angebot = auftrag.getAngebot();
-		return angebot.getBauteilNr();
-	}
-
-	@Override
 	public void notifyFertigungAbgeschlossen(int auftragNr) {
 		assert auftragNr > 0;
 		
@@ -94,8 +85,8 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 		auftrag.setIstAbgeschlossen(true);
 		
 		//TODO Rechnung erstellen
-		System.out.println("Eine Rechnung für den Kunden wurde erstellt. \n");
-		//TODO Lieferung anstoßen
+		System.out.println("Eine Rechnung fï¿½r den Kunden wurde erstellt. \n");
+		//TODO Lieferung anstoï¿½en
 		System.out.println("Die Lieferung wurde beauftrag. \n");
 
 		Angebot angebot = auftrag.getAngebot();

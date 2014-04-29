@@ -13,6 +13,7 @@ import main.auftragKomponente.dataAccessLayer.Auftrag;
 import main.fertigungKomponente.accessLayer.FertigungKomponenteFacade;
 import main.fertigungKomponente.accessLayer.IFertigungServices;
 import main.fertigungKomponente.accessLayer.IFertigungServicesFuerAuftrag;
+import main.fertigungKomponente.accessLayer.Exceptions.AuftragServicesNotSetException;
 import main.fertigungKomponente.dataAccessLayer.Bauteil;
 import main.fertigungKomponente.dataAccessLayer.Fertigungsauftrag;
 import main.fertigungKomponente.dataAccessLayer.Fertigungsplan;
@@ -77,7 +78,7 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		
 		// Setup komplexes Bauteil
 		Bauteil komplexesBauteil = new Bauteil();
-		komplexesBauteil.setName("Mähdrescher");
+		komplexesBauteil.setName("Mï¿½hdrescher");
 		bauteilDAO.create(komplexesBauteil); // create bauteil
 		Vorgang v2 = new Vorgang();
 		v2.setVorgangTyp(ArtTyp.BEREITSTELLUNG);
@@ -116,7 +117,7 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		stuecklistenpositionDAO.create(slp1); // create stuecklistenposition
 		Stuecklistenposition slp2 = new Stuecklistenposition();
 		slp2.setMenge(1);
-		slp2.setName("Gehäuse");
+		slp2.setName("Gehï¿½use");
 		stuecklistenpositionDAO.create(slp2); // create stuecklistenposition
 		Stuecklistenposition slp3 = new Stuecklistenposition();
 		slp3.setMenge(12);
@@ -131,7 +132,6 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		stuecklisteDAO.create(sl); // create stueckliste
 		komplexesBauteil.setFertigungsplan(fp2);
 		komplexesBauteil.setStueckliste(sl);
-		komplexesBauteil.setStuecklistenposition(sl.getStuecklistenposition());
 		bauteilDAO.update(komplexesBauteil);
 		
 		System.out.println("Initializing DB complete.");
@@ -156,9 +156,9 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
 		
 		Auftrag auftrag = auftragServices.createAuftragFuerAngebot(angebot); // creates auftrag for angebot
-		System.out.println("Folgender Auftrag wurde für das Angebot Nr. " + angebot.getAngebotNr() + " erstellt :");
+		System.out.println("Folgender Auftrag wurde fï¿½r das Angebot Nr. " + angebot.getAngebotNr() + " erstellt :");
 		System.out.println(auftrag + "\n");
-		System.out.println("Folgender Fertigungsauftrag wurde für den Auftrag Nr. " + auftrag.getAuftragsNr() + " erstellt: ");
+		System.out.println("Folgender Fertigungsauftrag wurde fï¿½r den Auftrag Nr. " + auftrag.getAuftragsNr() + " erstellt: ");
 		Fertigungsauftrag fertigungsauftrag = fertigungServices.readFertigungsauftragById(auftrag.getFertigungsauftragNr()); // gets fertigungsauftrag for auftrag
 		System.out.println(fertigungsauftrag + "\n");
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
@@ -175,7 +175,7 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 	}
 	
 	@Test
-	public void testNimmAngebotAnUndErstelleKomplexesBauteilTestSuccess() throws InvalidAngebotStatusException {
+	public void testNimmAngebotAnUndErstelleKomplexesBauteilTestSuccess() throws InvalidAngebotStatusException, AuftragServicesNotSetException {
 		Angebot angebot = auftragServices.createAngebot(1, 2); // creats angebot for customer "1" for bauteil "2" (complex)
 		System.out.println("Folgendes Angebot wurde erstellt: ");
 		System.out.println(angebot + "\n");
@@ -188,9 +188,9 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
 		
 		Auftrag auftrag = auftragServices.createAuftragFuerAngebot(angebot); // creates auftrag for angebot
-		System.out.println("Folgender Auftrag wurde für das Angebot Nr. " + angebot.getAngebotNr() + " erstellt :");
+		System.out.println("Folgender Auftrag wurde fï¿½r das Angebot Nr. " + angebot.getAngebotNr() + " erstellt :");
 		System.out.println(auftrag + "\n");
-		System.out.println("Folgender Fertigungsauftrag wurde für den Auftrag Nr. " + auftrag.getAuftragsNr() + " erstellt: ");
+		System.out.println("Folgender Fertigungsauftrag wurde fï¿½r den Auftrag Nr. " + auftrag.getAuftragsNr() + " erstellt: ");
 		Fertigungsauftrag fertigungsauftrag = fertigungServices.readFertigungsauftragById(auftrag.getFertigungsauftragNr()); // gets fertigungsauftrag for auftrag
 		System.out.println(fertigungsauftrag + "\n");
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");

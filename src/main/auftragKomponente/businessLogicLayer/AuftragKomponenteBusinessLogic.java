@@ -2,7 +2,6 @@ package main.auftragKomponente.businessLogicLayer;
 
 import main.auftragKomponente.dataAccessLayer.Auftrag;
 import main.fertigungKomponente.accessLayer.IFertigungServicesFuerAuftrag;
-import main.fertigungKomponente.accessLayer.Exceptions.AuftragServicesNotSetException;
 
 public class AuftragKomponenteBusinessLogic {
 
@@ -15,12 +14,8 @@ public class AuftragKomponenteBusinessLogic {
 
 	public int erstelleFertigungsauftragFuerAuftrag(Auftrag auftrag) {
 		int fertigungsauftragNr = 0;
-		try {
-			fertigungsauftragNr = fertigungServices.erstelleFertigungsauftragFuerAuftrag(auftrag.getAuftragsNr());
-		} catch (AuftragServicesNotSetException e) {
-			System.err.println("FertigungsServices wasn't initiatet properly.");
-			e.printStackTrace();
-		}
+		fertigungsauftragNr = fertigungServices.erstelleFertigungsauftragFuerAuftrag(auftrag.getAuftragsNr(), auftrag.getAngebot().getBauteilNr());
+		assert fertigungsauftragNr > 0;
 		return fertigungsauftragNr;
 	}
 }

@@ -62,7 +62,7 @@ public class AuftragKomponenteTest {
 			throws InvalidAngebotStatusException, AuftragServicesNotSetException {
 		context.checking(new Expectations() {
 			{
-				oneOf(fertigungServicesMock).erstelleFertigungsauftragFuerAuftrag(with(any(int.class))); // this method will be called on the mock object with any int value (TODO: mybe checkt it's not zero)
+				oneOf(fertigungServicesMock).erstelleFertigungsauftragFuerAuftrag(with(any(int.class)), with(any(int.class))); // this method will be called on the mock object with any int value (TODO: mybe checkt it's not zero)
 			}
 		});
 		Angebot angebot = auftragSerivces.createAngebot(2, 42);

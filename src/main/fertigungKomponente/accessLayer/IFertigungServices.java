@@ -1,24 +1,27 @@
 package main.fertigungKomponente.accessLayer;
 
 import main.auftragKomponente.accessLayer.IAuftragServicesFuerFertigung;
+import main.fertigungKomponente.accessLayer.Exceptions.AuftragServicesNotSetException;
 import main.fertigungKomponente.dataAccessLayer.Fertigungsauftrag;
 
 public interface IFertigungServices {
 	
 	/**
-	 * Setzt den übergebenen Fertigungsauftrag um.
+	 * Setzt den ï¿½bergebenen Fertigungsauftrag um.
 	 * @param fertigungsauftrag
+	 * @throws AuftragServicesNotSetException 
 	 */
 	public void starteFertigungsauftrag(Fertigungsauftrag fertigungsauftrag);
 
 	/**
-	 * Schnittstelle für Mitarbeiter zum Abschliessen eines Frachtauftrags.
+	 * Schnittstelle fï¿½r Mitarbeiter zum Abschliessen eines Frachtauftrags.
 	 * @param fertigungsauftrag
+	 * @throws AuftragServicesNotSetException 
 	 */
-	public void completeFertigungsauftrag(Fertigungsauftrag fertigungsauftrag);
+	public void completeFertigungsauftrag(Fertigungsauftrag fertigungsauftrag) throws AuftragServicesNotSetException;
 	
 	/**
-	 * Gibt den Fertigungsauftrag mit der übergebenen ID zurück.
+	 * Gibt den Fertigungsauftrag mit der ï¿½bergebenen ID zurï¿½ck.
 	 * @param fertigungsauftragNr
 	 * @return Fertigungsauftrag
 	 */

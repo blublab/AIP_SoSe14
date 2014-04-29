@@ -21,14 +21,10 @@ public class FertigungKomponenteFacade implements IFertigungServices,
 	}
 
 	@Override
-	public int erstelleFertigungsauftragFuerAuftrag(int auftragNr)
-			throws AuftragServicesNotSetException {
+	public int erstelleFertigungsauftragFuerAuftrag(int auftragNr, int bauteilNr)
+	{
 		assert auftragNr > 0;
 
-		if (!auftragServicesSet) {
-			throw new AuftragServicesNotSetException();
-		}
-		int bauteilNr = auftragServices.getBauteilVonAuftrag(auftragNr);
 		Bauteil bauteil = bauteilDAO.read(bauteilNr);
 
 		assert bauteil != null;
@@ -42,30 +38,36 @@ public class FertigungKomponenteFacade implements IFertigungServices,
 
 	@Override
 	public void setAuftragServices(IAuftragServicesFuerFertigung auftragServices) {
-		if (auftragServices != null) {
+		if (auftragServicesSet == false) {
 			this.auftragServices = auftragServices;
 			this.auftragServicesSet = true;
 		}
 	}
 
 	@Override
-	public void completeFertigungsauftrag(Fertigungsauftrag fertigungsauftrag) {
+	public void completeFertigungsauftrag(Fertigungsauftrag fertigungsauftrag) throws AuftragServicesNotSetException {
 		assert fertigungsauftrag != null;
 
 		System.out.println("Das Produkt '" + fertigungsauftrag.getBauteil().getName() + "' wurde hergestellt. \n");
+		if(auftragServicesSet == false) {
+			throw new AuftragServicesNotSetException();
+		}
 		auftragServices.notifyFertigungAbgeschlossen(fertigungsauftrag
 				.getAuftragNr());
 	}
 
 	@Override
-	public void starteFertigungsauftrag(Fertigungsauftrag fertigungsauftrag) {
+	public void starteFertigungsauftrag(Fertigungsauftrag fertigungsauftrag){
 		boolean complex = checkComplexity(fertigungsauftrag.getBauteil());
 		if (complex) {
 			notifyProduktionsmitarbeiter(fertigungsauftrag);
 		} else {
-			System.out.println("Das Produkt '" + fertigungsauftrag.getBauteil().getName() + "' wurde hergestellt. \n");
-			auftragServices.notifyFertigungAbgeschlossen(fertigungsauftrag
-					.getAuftragNr());
+			try {
+				completeFertigungsauftrag(fertigungsauftrag);
+			} catch (AuftragServicesNotSetException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 
