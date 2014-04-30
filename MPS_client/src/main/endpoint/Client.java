@@ -4,7 +4,7 @@ public class Client {
 
 	public static void main (String[] args) {
 		ClientAdapterImplService clientAdapterService = new ClientAdapterImplService();
-		ClientAdapterImpl clientAdapter = clientAdapterService.getClientAdapterImplPort();
+		IClientAdapter clientAdapter = clientAdapterService.getClientAdapterImplPort();
 		
 		System.out.println("------->>  Call Started");
 		System.out.println(clientAdapter.saySomething("HALLO????"));

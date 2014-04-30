@@ -65,11 +65,11 @@ public class ClientAdapterImplService
     /**
      * 
      * @return
-     *     returns ClientAdapterImpl
+     *     returns IClientAdapter
      */
     @WebEndpoint(name = "ClientAdapterImplPort")
-    public ClientAdapterImpl getClientAdapterImplPort() {
-        return super.getPort(new QName("http://endpoint.main/", "ClientAdapterImplPort"), ClientAdapterImpl.class);
+    public IClientAdapter getClientAdapterImplPort() {
+        return super.getPort(new QName("http://endpoint.main/", "ClientAdapterImplPort"), IClientAdapter.class);
     }
 
     /**
@@ -77,11 +77,11 @@ public class ClientAdapterImplService
      * @param features
      *     A list of {@link javax.xml.ws.WebServiceFeature} to configure on the proxy.  Supported features not in the <code>features</code> parameter will have their default values.
      * @return
-     *     returns ClientAdapterImpl
+     *     returns IClientAdapter
      */
     @WebEndpoint(name = "ClientAdapterImplPort")
-    public ClientAdapterImpl getClientAdapterImplPort(WebServiceFeature... features) {
-        return super.getPort(new QName("http://endpoint.main/", "ClientAdapterImplPort"), ClientAdapterImpl.class, features);
+    public IClientAdapter getClientAdapterImplPort(WebServiceFeature... features) {
+        return super.getPort(new QName("http://endpoint.main/", "ClientAdapterImplPort"), IClientAdapter.class, features);
     }
 
     private static URL __getWsdlLocation() {
