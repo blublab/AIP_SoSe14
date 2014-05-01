@@ -7,6 +7,11 @@ import java.util.Iterator;
 public class Housekeeping extends Thread {
 	private int thresholdLimitInSeconds;
 	private int checkRate;
+	private NotifyDispatcher notification=null;
+	
+	public Housekeeping(NotifyDispatcher notification) {
+		this.notification=notification;
+	}
 
 	public void setThresholdLimitInSeconds(int thresholdLimitInSeconds) {
 		this.thresholdLimitInSeconds = thresholdLimitInSeconds;
@@ -24,15 +29,18 @@ public class Housekeeping extends Thread {
 			Calendar currentDateMinusTimeRange = Calendar.getInstance();
 			currentDateMinusTimeRange.add(Calendar.SECOND, thresholdLimitInSeconds);
 
-			Iterator<MPSCoreServer> serverIterator = sl.getServerList().iterator();
+			Iterator<MPSCoreServerItem> serverIterator = sl.getServerList().iterator();
 			while (serverIterator.hasNext()) {
-				MPSCoreServer s = serverIterator.next();
+				MPSCoreServerItem s = serverIterator.next();
 				if (!isWithinThreshold(s.getLastAliveDate(), currentDateMinusTimeRange)) {
 					System.out.println(s.getInstanceName() + " kicked !!!!");
 					serverIterator.remove();
 				}
 			}
 
+			//Notify Dispatcher (and Dashboard!?) if new Information was send to the Server
+			notification.notifyDispatcher();
+			
 			try {
 				sleep(checkRate);
 			} catch (InterruptedException e) {

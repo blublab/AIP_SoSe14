@@ -2,11 +2,11 @@ package main.mps_hb_monitor;
 
 import java.util.Date;
 
-public class MPSCoreServer {
+public class MPSCoreServerItem {
 	String hostname = "";
 	String instanceName = "";
 	Date lastAliveDate = null;
-	
+
 
 	public String getHostname() {
 		return hostname;
@@ -50,7 +50,7 @@ public class MPSCoreServer {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		MPSCoreServer other = (MPSCoreServer) obj;
+		MPSCoreServerItem other = (MPSCoreServerItem) obj;
 		if (instanceName == null) {
 			if (other.instanceName != null)
 				return false;

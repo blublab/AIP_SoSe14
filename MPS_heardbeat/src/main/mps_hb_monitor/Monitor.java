@@ -8,6 +8,8 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.logging.*;
 
+import main.Settings;
+
 public class Monitor {
 
 	// The number of worker threads equals the maximum number of concurrent
@@ -18,8 +20,8 @@ public class Monitor {
 	public static final int NAME_MAX_LENGTH = 20;
 
 	// Port on which the server listens for Servers
-	public final static int PORT = 50000;
-	
+	// public final static int PORT = 50002;
+
 	// Housekeeping
 	public static final int HK_THRESHOLD_LIMIT_IN_SECONDS = -10;
 	public static final int HK_CHECKRATE = 1000;
@@ -32,18 +34,22 @@ public class Monitor {
 
 		ServerList sl = ServerList.getInstance();
 
-		Housekeeping hk = new Housekeeping();
+		NotifyDispatcher nd = new NotifyDispatcher();
+		nd.start();// Connects (and reconnects) to Dispatch Server
+
+		Housekeeping hk = new Housekeeping(nd);
 		hk.setCheckRate(HK_CHECKRATE);
 		hk.setThresholdLimitInSeconds(HK_THRESHOLD_LIMIT_IN_SECONDS);
 		hk.start();
 
+	
 		ExecutorService pool = Executors.newFixedThreadPool(NUMBER_IO_THREADS);
 
 		try {
-			ServerSocket ssocket = new ServerSocket(PORT);
+			ServerSocket ssocket = new ServerSocket(Settings.MonitorPort);
 
 			try {
-				infoLogger.log(Level.INFO, "Starting Server on Port " + PORT);
+				infoLogger.log(Level.INFO, "Starting Server on Port " + Settings.MonitorPort);
 				infoLogger.log(Level.INFO, "Number of IO threads: " + NUMBER_IO_THREADS);
 
 				// Main loop for accepting server connections

@@ -17,20 +17,20 @@ public class ServerList {
 		return ServerList.instance;
 	}
 
-	private Set<MPSCoreServer> sl = new HashSet<>();
+	private Set<MPSCoreServerItem> sl = new HashSet<>();
 	
 	
 
-	public Set<MPSCoreServer> getServerList() {
+	public Set<MPSCoreServerItem> getServerList() {
 		return sl;
 	}
 
 	public boolean addServer(String hostname, String instancename, Date currentTime) {
-		System.out.println(sl.toString());
+		
 
 		hostname = hostname.replace("/", "");
 
-		MPSCoreServer s = new MPSCoreServer();
+		MPSCoreServerItem s = new MPSCoreServerItem();
 		s.setHostname(hostname);
 		s.setInstanceName(instancename);
 		s.setLastAliveDate(currentTime); // this Value is ignored for equals!
@@ -38,24 +38,28 @@ public class ServerList {
 		if (sl.contains(s)) { // update TimeStamp
 			sl.remove(s);
 			System.out.println("update: " + s);
-			return sl.add(s);
+			sl.add(s);
+			System.out.println(sl.size() + ": "+sl.toString());
+			return true;
 		} else {
 			System.out.println("add: " + s);
-			return sl.add(s);
+			sl.add(s);
+			System.out.println(sl.size() + ": "+sl.toString());
+			return true;
 		}
 
 	}
 
 
 	public boolean removeServer(String hostname, String instancename) {
-		MPSCoreServer s = new MPSCoreServer();
+		MPSCoreServerItem s = new MPSCoreServerItem();
 		s.setHostname(hostname);
 		s.setInstanceName(instancename);
 
 		return sl.remove(s);
 	}
 	
-	public boolean removeServer(MPSCoreServer s) {
+	public boolean removeServer(MPSCoreServerItem s) {
 		return sl.remove(s);
 	}
 

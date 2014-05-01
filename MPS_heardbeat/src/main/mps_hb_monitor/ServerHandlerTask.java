@@ -35,6 +35,7 @@ public class ServerHandlerTask implements Callable {
 	public ServerHandlerTask(Context c) 
 	{
 		this.ctx = c;
+	
 	}
 	
 	/**
@@ -90,6 +91,8 @@ public class ServerHandlerTask implements Callable {
 					quit = true;
 				}
 				scan.close();
+				
+			
 			} catch (IOException e) {
 				Monitor.errorLogger.log(Level.WARNING, e.getMessage(), e);
 				quit = true;
