@@ -28,6 +28,5 @@ public interface IDispatcherWSForClient {
 	 * @param s
 	 * @return
 	 */
-	@WebMethod
 	public String echo(String s);
 }
