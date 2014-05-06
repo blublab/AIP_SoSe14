@@ -1,8 +1,10 @@
 package main.dispatcherWS;
 
 import javax.jws.WebService;
+import javax.xml.ws.BindingType;
 
 @WebService(endpointInterface="main.dispatcherWS.IDispatcherWSForClient")
+@BindingType(value="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/")
 public class DispatcherWSForClientImpl implements IDispatcherWSForClient {
 
 	private Dispatcher_BL dispatcherBL = null;

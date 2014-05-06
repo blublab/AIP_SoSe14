@@ -1,6 +1,5 @@
 package main.dispatcherWS;
 
-import javax.jws.WebMethod;
 import javax.jws.WebService;
 
 @WebService
@@ -12,7 +11,6 @@ public interface IDispatcherWSForClient {
 	 * @param bauteilNr
 	 * @return
 	 */
-	@WebMethod
 	public boolean createAngebot(int kundenNr, int bauteilNr);
 
 	/**
@@ -20,7 +18,6 @@ public interface IDispatcherWSForClient {
 	 * @param angebotNr
 	 * @return
 	 */
-	@WebMethod
 	public boolean nimmAngebotAn(int angebotNr);
 	
 	/**
