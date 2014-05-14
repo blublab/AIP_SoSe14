@@ -156,7 +156,7 @@ Client.prototype._invoke = function(method, args, location, callback, options, e
 
   //ms
   xml = xml.replace(/xmlns="[^"]+"/, '');
-  xml = xml.replace(/tns:arg0/g, 'arg0');
+  xml = xml.replace(/tns:arg([0-9]+)/g, 'arg$1');
   //ms
 
   self.lastMessage = message;
