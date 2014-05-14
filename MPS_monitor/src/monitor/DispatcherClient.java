@@ -40,15 +40,20 @@ public class DispatcherClient {
         String message;
         Iterator<Client> iter;
 
-        message = "";
+        message = "[";
         iter = clients.iterator();
         while(iter.hasNext()){
             client = iter.next();
-            message += client.getAddress().getHostAddress() + ":" + client.getPort() + ",";
+            message += "{";
+            message += "\"host\":\"" + client.getAddress().getHostAddress() + "\"";
+            message += "\"port\":\"" + client.getPort() + "\"";
+            message += "}";
+            message += ",";
         }
         if(clients.size() > 0){
             message = message.substring(0, message.length() - 1 );
         }
+        message += "]";
 
         try {
             this.outToServer.writeUTF(message);

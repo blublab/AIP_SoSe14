@@ -4,6 +4,9 @@
 <head>
     <meta charset="utf-8">
 
+    <!-- moment.js -->
+    <script type="text/javascript" src="js/moment.min.js"></script>
+
     <!-- jquery -->
     <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
 
@@ -49,20 +52,41 @@
     <div id="myTabContent" class="tab-content panel panel-default panel-body tabspanel">
         <div class="tab-pane fade in active" id="uebersicht">
 
+
+
             <h3>Angebote</h3>
-            <p>Liste aller Angebote die noch nicht angenommen wurden</p>
-            <ul class="list-group">
-                <li class="list-group-item">1</li>
-                <li class="list-group-item">2</li>
-                <li class="list-group-item">3</li>
-            </ul>
+            <p><span onclick="updateAngebote();" class="glyphicon glyphicon-repeat"></span> Liste aller Angebote die noch nicht angenommen wurden</p>
+            <table class="table" id="mps-table-angebote">
+                <thead>
+                    <tr>
+                        <th>Nr</th>
+                        <th>Gültig ab</th>
+                        <th>Gültig bis</th>
+                        <th>Preis</th>
+                        <th>Status</th>
+                        <th>Bauteil</th>
+                        <th>Auftrag</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
+            <hr>
 
             <h3>Aufträge</h3>
-            <p>Liste aller Aufträge (Angenommene Angebote)</p>
-            <ul class="list-group">
-                <li class="list-group-item">1</li>
-                <li class="list-group-item">2</li>
-            </ul>
+            <p><span onclick="updateAuftraege();" class="glyphicon glyphicon-repeat"></span> Liste aller Aufträge (Angenommene Angebote)</p>
+            <table class="table" id="mps-table-auftrag">
+                <thead>
+                    <tr>
+                        <th>Nr</th>
+                        <th>Abgeschlossen</th>
+                        <th>Beauftragt am</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
 
 
         </div>
@@ -74,22 +98,21 @@
                     <div class="form-group">
                         <label for="kunde">Kunde</label>
                         <select id="kunde" class="form-control">
-                            <option value="1234">Müller GmbH</option>
-                            <option value="4321">Kirchner KG</option>
+                            <option value="123">Zahlemann & Söhne</option>
+                            <option value="456">Rechtsanwaltskanzlei Stümper</option>
+                            <option value="789">Autohaus Sarg</option>
                         </select>
                     </div>
 
                     <div class="form-group">
-                        <label for="bauteil">Bauteil</label>
+                        <label onclick="updateBauteile();" for="bauteil">Bauteil <span class="glyphicon glyphicon-repeat"></span></label>
                         <select id="bauteil" class="form-control">
-                            <option value="6789">Rad</option>
-                            <option value="9876">Pümpel</option>
                         </select>
                     </div>
 
                     <div class="form-group">
                         <!--<button type="submit" class="btn btn-danger">Verwerfen</button>-->
-                        <button type="submit" class="btn btn-success">Angebot erstellen</button>
+                        <button onclick="createAngebot()" type="button" class="btn btn-success">Angebot erstellen</button>
                     </div>
                 </form>
             </div>
@@ -99,21 +122,50 @@
             <form role="form" style="width:25%">
 
                 <div class="form-group">
-                    <label for="angebot">Angebot</label>
-                    <select id="angebot" class="form-control">
-                        <option value="1234">Angebot 1</option>
-                        <option value="2345">Angebot 2</option>
-                        <option value="3456">Angebot 3</option>
+                        <label onclick="updateAngebote();" for="angebote">Angebot <span class="glyphicon glyphicon-repeat"></span></label>
+                    <select id="angebote" class="form-control">
                     </select>
                 </div>
 
                 <div class="form-group">
                     <!--<button type="submit" class="btn btn-danger">Verwerfen</button>-->
-                    <button type="submit" class="btn btn-success">Auftrag erstellen</button>
+                    <button onclick="acceptAngebot()" type="button" class="btn btn-success">Auftrag erstellen</button>
                 </div>
             </form>
         </div>
     </div>
+
+
+    <script id="mps-uebersicht-angebot" type="text/template">
+    <tr>
+        <td class="mps-uebersicht-angebotNr"></td>
+        <td class="mps-uebersicht-gueltingAb"></td>
+        <td class="mps-uebersicht-gueltigBis"></td>
+        <td class="mps-uebersicht-preis"></td>
+        <td class="mps-uebersicht-status"></td>
+        <td class="mps-uebersicht-bauteil"></td>
+        <td class="mps-uebersicht-auftrag"></td>
+    </tr>
+    </script>
+
+
+    <script id="mps-uebersicht-auftrag" type="text/template">
+    <tr>
+        <td class="mps-uebersicht-auftragNr"></td>
+        <td class="mps-uebersicht-istAbgeschlossen"></td>
+        <td class="mps-uebersicht-beauftragtAm"></td>
+    </tr>
+    </script>
+
+
+    <script id="mps-select-bauteile" type="text/template">
+        <option value=""></option>
+    </script>
+
+
+    <script id="mps-select-angebote" type="text/template">
+        <option value=""></option>
+    </script>
 
 </body>
 

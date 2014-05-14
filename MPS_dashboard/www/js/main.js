@@ -1,25 +1,25 @@
-var WS = null;
+var WS = null,
+    host = '127.0.0.1',
+    port = 8888,
+    path = '/';
 
 var SOAP = {
     getInstances: function(data) {
         for (var i = 0; i < data.length; i++) {
             addInstance.call(data[i], data[i]);
         }
+    },
+    setStatus: function(host, port, color) {
+        WS.send(JSON.stringify({
+            func: 'setStatus',
+            data: {
+                arg0: host,
+                arg1: port,
+                arg2: color.toUpperCase()
+            }
+        }));
     }
 };
-
-
-
-function setStatus(host, port, color) {
-    WS.send(JSON.stringify({
-        func: 'setStatus',
-        data: {
-            arg0: host,
-            arg1: port,
-            arg2: color.toUpperCase()
-        }
-    }));
-}
 
 function addInstance(data) {
 
@@ -38,12 +38,12 @@ function addInstance(data) {
 
     instance.find('.yellow').off("click").click(function() {
         if (self.status != 'RED')
-            setStatus(self.host, self.port, 'YELLOW');
+            SOAP.setStatus(self.host, self.port, 'YELLOW');
     });
 
     instance.find('.green').off("click").click(function() {
         if (self.status != 'RED')
-            setStatus(self.host, self.port, 'GREEN');
+            SOAP.setStatus(self.host, self.port, 'GREEN');
     });
 
     updateInstance.call(this, instance);
@@ -97,10 +97,6 @@ function refresh() {
 
 
 $(document).ready(function() {
-    var host = '127.0.0.1',
-        port = 8888,
-        path = '/';
-
     var status = document.getElementById('wsstatus'),
         icon = document.getElementById('wsicon');
 

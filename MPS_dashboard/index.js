@@ -1,15 +1,20 @@
-// Moduls
+/***************/
+/*** Modules ***/
+/***************/
 var wsLib = require('./lib/ws'),
     dgramLib = require('dgram'),
     httpLib = require('http'),
     fsLib = require('fs'),
     soapLib = require('./lib/soap');
 
-// Configuration
+/*********************/
+/*** Configuration ***/
+/*********************/
 var WStoSOAP = {},
-
+    
     wsServerHost = '127.0.0.1',
     wsServerPort = 8888,
+    
     httpServerHost = '127.0.0.1',
     httpServerPort = 8001,
     documentRoot = './www',
@@ -23,6 +28,7 @@ var WStoSOAP = {},
         ttf: 'application/octet-stream',
         woff: 'application/x-font-woff'
     },
+    
     soapMonitorProtocol = 'http',
     soapMonitorHost = '127.0.0.1',
     soapMonitorPort = 7890,
@@ -34,6 +40,8 @@ var WStoSOAP = {},
 var wsServer = new wsLib.Server({
     host: wsServerHost,
     port: wsServerPort
+}, function(){
+    console.log('WebSocket Server ' + wsServerHost + ':' + wsServerPort);
 });
 wsServer.on('connection', function(ws) {
 
@@ -61,7 +69,6 @@ wsServer.on('connection', function(ws) {
         }
     });
 });
-console.log('WebSocket Server ' + wsServerHost + ':' + wsServerPort);
 
 /*******************/
 /*** SOAP CLient ***/
