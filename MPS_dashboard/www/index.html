@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <script type="text/javascript" src="js/moment.min.js"></script>
+
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-3.1.1.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme-3.1.1.min.css">
+    <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <title>Dashboard-GUI</title>
+</head>
+
+<body>
+
+
+
+    <div class="page-header">
+        <h1>Dashboard-GUI
+            <small>
+                <span id="wsstatus"></span> <span id="wsicon" class="" style="cursor: pointer" onclick="window.location.reload()"></span>
+            </small>
+        </h1>
+    </div>
+
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    <span class="glyphicon glyphicon-globe"></span> Host</th>
+                <th>
+                    <span class="glyphicon glyphicon-record"></span> Port</th>
+                <th>
+                    <span class="glyphicon glyphicon-log-in"></span> Queries</th>
+                <th>
+                    <span class="glyphicon glyphicon-tasks"></span> Load</th>
+                <th>
+                    <span class="glyphicon glyphicon-screenshot"></span> Signal</th>
+                <th>
+                    <span class="glyphicon glyphicon-arrow-down"></span> Downtime</th>
+                <th>
+                    <span class="glyphicon glyphicon-warning-sign"></span> Idletime</th>
+                <th>
+                    <span class="glyphicon glyphicon-arrow-up"></span> Uptime</th>
+                <th>
+                    <span class="glyphicon glyphicon-asterisk"></span> Status</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+
+    <script id="mps-instance-template" type="text/template">
+    <tr>
+        <td class="mps-host"></td>
+        <td class="mps-port"></td>
+        <td class="mps-queries"></td>
+        <td class="mps-load"></td>
+        <td class="mps-signal"></td>
+        <td class="mps-downtime"></td>
+        <td class="mps-idletime"></td>
+        <td class="mps-uptime"></td>
+        <td>
+            <ul class="mps-status">
+                <li class="red grey"></li>
+                <li class="yellow grey"></li>
+                <li class="green grey"></li>
+            </ul>
+        </td>
+    </tr>
+    </script>
+
+</body>
+
+</html>
