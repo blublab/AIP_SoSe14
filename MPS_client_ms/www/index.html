@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <!-- jquery -->
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-3.1.1.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme-3.1.1.min.css">
+    <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+
+    <!-- main -->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <title>Client-GUI</title>
+</head>
+
+<body>
+
+    <div class="page-header">
+        <h1>Client-GUI
+            <small>
+                <span id="wsstatus"></span> <span id="wsicon" class="" style="cursor: pointer" onclick="window.location.reload()"></span>
+            </small>
+        </h1>
+    </div>
+
+    <ul id="myTab" class="nav nav-tabs">
+        <li class="active">
+            <a href="#uebersicht" data-toggle="tab">
+                <span class="glyphicon glyphicon-th-list"></span>
+                Übersicht</a>
+        </li>
+        <li class="">
+            <a href="#angebot" data-toggle="tab">
+                <span class="glyphicon glyphicon-plus"></span>
+                Neues Angebot</a>
+        </li>
+        <li class="">
+            <a href="#auftrag" data-toggle="tab">
+                <span class="glyphicon glyphicon-ok"></span>
+                Auftrag erstellen</a>
+        </li>
+    </ul>
+    <div id="myTabContent" class="tab-content panel panel-default panel-body tabspanel">
+        <div class="tab-pane fade in active" id="uebersicht">
+
+            <h3>Angebote</h3>
+            <p>Liste aller Angebote die noch nicht angenommen wurden</p>
+            <ul class="list-group">
+                <li class="list-group-item">1</li>
+                <li class="list-group-item">2</li>
+                <li class="list-group-item">3</li>
+            </ul>
+
+            <h3>Aufträge</h3>
+            <p>Liste aller Aufträge (Angenommene Angebote)</p>
+            <ul class="list-group">
+                <li class="list-group-item">1</li>
+                <li class="list-group-item">2</li>
+            </ul>
+
+
+        </div>
+        <div class="tab-pane fade" id="angebot">
+
+            <div class="form-group">
+                <form role="form" style="width:25%">
+
+                    <div class="form-group">
+                        <label for="kunde">Kunde</label>
+                        <select id="kunde" class="form-control">
+                            <option value="1234">Müller GmbH</option>
+                            <option value="4321">Kirchner KG</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bauteil">Bauteil</label>
+                        <select id="bauteil" class="form-control">
+                            <option value="6789">Rad</option>
+                            <option value="9876">Pümpel</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <!--<button type="submit" class="btn btn-danger">Verwerfen</button>-->
+                        <button type="submit" class="btn btn-success">Angebot erstellen</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        <div class="tab-pane fade" id="auftrag">
+            <form role="form" style="width:25%">
+
+                <div class="form-group">
+                    <label for="angebot">Angebot</label>
+                    <select id="angebot" class="form-control">
+                        <option value="1234">Angebot 1</option>
+                        <option value="2345">Angebot 2</option>
+                        <option value="3456">Angebot 3</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <!--<button type="submit" class="btn btn-danger">Verwerfen</button>-->
+                    <button type="submit" class="btn btn-success">Auftrag erstellen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</body>
+
+</html>
