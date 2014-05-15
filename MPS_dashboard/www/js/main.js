@@ -85,7 +85,7 @@ function updateInstance(instance) {
 }
 
 function refresh() {
-    var rate = 1000;
+    var rate = 3500;
     if (WS.readyState == WS.OPEN) {
         WS.send(JSON.stringify({
             func: "getInstances",

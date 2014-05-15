@@ -16,7 +16,7 @@ var WStoSOAP = {},
     wsServerPort = 8888,
     
     httpServerHost = '127.0.0.1',
-    httpServerPort = 8001,
+    httpServerPort = 8003,
     documentRoot = './www',
     defaultFile = '/index.html',
     mimeTypes = {
