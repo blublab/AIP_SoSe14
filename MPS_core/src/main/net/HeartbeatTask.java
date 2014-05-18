@@ -1,8 +1,6 @@
 package main.net;
 
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.management.ManagementFactory;
@@ -11,7 +9,6 @@ import java.lang.management.OperatingSystemMXBean;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Properties;
 import java.util.TimerTask;
 
 import org.json.simple.JSONObject;
@@ -25,27 +22,11 @@ public class HeartbeatTask extends TimerTask {
 	int monitor_port;
 	
 
-	public HeartbeatTask() 
+	public HeartbeatTask(int local_port, String monitor_host, int monitor_port) 
 	{
-		Properties prop = new Properties();
-		InputStream input = null;
-		try{
-			input = new FileInputStream("cfg/server.cfg");
-			prop.load(input);
-			local_port = Integer.parseInt(prop.getProperty("local_port"));
-			monitor_host = prop.getProperty("monitor_host");
-			monitor_port = Integer.parseInt(prop.getProperty("monitor_port"));
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			if (input != null) {
-				try {
-					input.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
+		this.local_port = local_port;
+		this.monitor_host = monitor_host;
+		this.monitor_port = monitor_port;
 	}
 	
 	@Override 
@@ -81,10 +62,10 @@ public class HeartbeatTask extends TimerTask {
 		OperatingSystemMXBean cpu_bean = ManagementFactory.getOperatingSystemMXBean();
 		MemoryMXBean memory_bean = ManagementFactory.getMemoryMXBean();
 		JSONObject beat = new JSONObject();
-		beat.put("host", InetAddress.getLocalHost().getHostAddress());
-		beat.put("port", local_port);
-		beat.put("systemload", cpu_bean.getSystemLoadAverage());
-		beat.put("memeory_avail", memory_bean.getHeapMemoryUsage().getUsed());
+		beat.put("host", new String(InetAddress.getLocalHost().getHostAddress()));
+		beat.put("port", new Integer(local_port));
+		beat.put("systemload", new Double(cpu_bean.getSystemLoadAverage()));
+		beat.put("memeory_avail", new Long(memory_bean.getHeapMemoryUsage().getUsed()));
 		try{
 			out.writeObject(beat);
 			out.flush();

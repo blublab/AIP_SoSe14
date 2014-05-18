@@ -1,5 +1,7 @@
 package main.auftragKomponente.accessLayer;
 
+import java.util.List;
+
 import main.auftragKomponente.accessLayer.Exceptions.InvalidAngebotStatusException;
 import main.auftragKomponente.dataAccessLayer.*;
 
@@ -11,7 +13,7 @@ public interface IAuftragServices {
 	 * @return Erstellter Auftrag
 	 * @throws InvalidAngebotStatusException 
 	 */
-	public Auftrag createAuftragFuerAngebot(Angebot angebot) throws InvalidAngebotStatusException;
+	public Auftrag createAuftragFuerAngebot(int angebotNr) throws InvalidAngebotStatusException;
 	
 	/**
 	 * Nimmt das Angebot an.
@@ -20,7 +22,7 @@ public interface IAuftragServices {
 	 * @Precondition Angebot muss im Zustand ANGELEGT sein
 	 * @Postcondition Angebot muss im Zustand ANGENOMMEN sein
 	 */
-	public void nimmAngebotAn(Angebot angebot) throws InvalidAngebotStatusException;
+	public void nimmAngebotAn(int angebotNr) throws InvalidAngebotStatusException;
 
 	/**
 	 * Erstellt ein Angebot für das Bauteil
@@ -42,4 +44,17 @@ public interface IAuftragServices {
 	 * @return Auftrag
 	 */
 	public Auftrag readAuftragById(int auftragNr);
+	
+	/**
+	 * Liefert alle Angebote.
+	 * @return
+	 */
+	public List<Angebot> readAllAngebote();
+	
+	/**
+	 * Liefert alle Auftraege.
+	 * @return
+	 */
+	public List<Auftrag> readAllAuftraege();
+
 }

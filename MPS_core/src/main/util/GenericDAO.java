@@ -1,5 +1,7 @@
 package main.util;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -89,5 +91,25 @@ public class GenericDAO<T> implements IGenericDao<T> {
 
 	private Session startSession() {
 		return HibernateUtil.getSessionFactory().openSession();
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<T> readAll() {
+		Session session = startSession();
+		Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			Object o = session.createCriteria(type).list();
+			tx.commit();
+			assert o != null;
+			return (List<T>) o;
+		} catch (Exception e) {
+			if (tx != null)
+				tx.rollback();
+			throw e;
+		} finally {
+			session.close();
+		}
 	}
 }

@@ -1,7 +1,10 @@
 package main.fertigungKomponente.accessLayer;
 
+import java.util.List;
+
 import main.auftragKomponente.accessLayer.IAuftragServicesFuerFertigung;
 import main.fertigungKomponente.accessLayer.Exceptions.AuftragServicesNotSetException;
+import main.fertigungKomponente.dataAccessLayer.Bauteil;
 import main.fertigungKomponente.dataAccessLayer.Fertigungsauftrag;
 
 public interface IFertigungServices {
@@ -32,4 +35,10 @@ public interface IFertigungServices {
 	 * @param auftragServices
 	 */
 	public void setAuftragServices(IAuftragServicesFuerFertigung auftragServices);
+
+	/**
+	 * Liefert alle Bauteile.
+	 * @return
+	 */
+	public List<Bauteil> readAllBauteile();
 }

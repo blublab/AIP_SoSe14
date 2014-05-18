@@ -1,5 +1,8 @@
 package main.fertigungKomponente.accessLayer;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import main.auftragKomponente.accessLayer.IAuftragServicesFuerFertigung;
 import main.fertigungKomponente.accessLayer.Exceptions.AuftragServicesNotSetException;
 import main.fertigungKomponente.dataAccessLayer.Bauteil;
@@ -86,5 +89,12 @@ public class FertigungKomponenteFacade implements IFertigungServices,
 		assert fertigungsauftragNr > 0;
 		
 		return fertigungsauftragDAO.read(fertigungsauftragNr);
+	}
+
+	@Override
+	public List<Bauteil> readAllBauteile() {
+		List<Bauteil> bauteilList = new ArrayList<Bauteil>();
+		bauteilList = bauteilDAO.readAll();
+		return bauteilList;
 	}
 }
