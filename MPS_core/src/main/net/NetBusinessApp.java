@@ -2,7 +2,6 @@ package main.net;
 
 import java.util.List;
 
-import jdk.nashorn.internal.scripts.JS;
 import main.auftragKomponente.accessLayer.AuftragKomponenteFacade;
 import main.auftragKomponente.accessLayer.IAuftragServices;
 import main.auftragKomponente.accessLayer.IAuftragServicesFuerFertigung;
@@ -12,10 +11,10 @@ import main.auftragKomponente.dataAccessLayer.Auftrag;
 import main.fertigungKomponente.accessLayer.FertigungKomponenteFacade;
 import main.fertigungKomponente.accessLayer.IFertigungServices;
 import main.fertigungKomponente.accessLayer.IFertigungServicesFuerAuftrag;
+import main.fertigungKomponente.dataAccessLayer.Bauteil;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
-
-import sun.awt.RepaintArea;
 
 public class NetBusinessApp implements IBusinessServicesForNet{
 	private IAuftragServices auftragServices;
@@ -35,6 +34,7 @@ public class NetBusinessApp implements IBusinessServicesForNet{
 		fertigungFacade.setAuftragServices(auftragServicesFuerFertigung);
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject createAngebot(int kundenNr, int bauteilNr)
 	{
@@ -47,6 +47,7 @@ public class NetBusinessApp implements IBusinessServicesForNet{
 		return response;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public JSONObject acceptAngebot(int angebotNr) {
 		JSONObject response = new JSONObject();
@@ -65,36 +66,55 @@ public class NetBusinessApp implements IBusinessServicesForNet{
 		return response;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public JSONObject getAllAngebote() {
-		JSONObject response = new JSONObject();
+	public JSONArray getAllAngebote() {
+		JSONArray response = new JSONArray();
 		List<Angebot> angebotList = auftragServices.readAllAngebote();
 		for (Angebot angebot : angebotList) {
-			response.put("angebotNr", angebot.getAngebotNr());
-			response.put("gueltigAb", angebot.getGueltigAb().getTime());
-			response.put("gueltigBis", angebot.getGueltigBis().getTime());
-			response.put("preis", angebot.getPreis());
-			response.put("status", new String(angebot.getStatus().toString()));
-			response.put("bauteil", angebot.getBauteilNr());
-			response.put("auftrag", angebot.getAuftrag().getAuftragsNr());
+			JSONObject jAngebot = new JSONObject();
+			jAngebot.put("angebotNr", angebot.getAngebotNr());
+			jAngebot.put("gueltigAb", angebot.getGueltigAb().getTime());
+			jAngebot.put("gueltigBis", angebot.getGueltigBis().getTime());
+			jAngebot.put("preis", angebot.getPreis());
+			jAngebot.put("status", new String(angebot.getStatus().toString()));
+			jAngebot.put("bauteil", angebot.getBauteilNr());
+			Auftrag auftrag = angebot.getAuftrag();
+			if(auftrag != null)
+				jAngebot.put("auftrag", auftrag.getAuftragsNr());
+			else
+				jAngebot.put("auftrag", "0");
+			response.add(jAngebot);
 		}
 		return response;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public JSONObject getAllAuftraege() {
-		JSONObject response = new JSONObject();
+	public JSONArray getAllAuftraege() {
+		JSONArray response = new JSONArray();
 		List<Auftrag> auftragList = auftragServices.readAllAuftraege();		
 		for (Auftrag auftrag : auftragList) {
-			response.put(", value)
+			JSONObject jAuftrag = new JSONObject();
+			jAuftrag.put("auftragNr", auftrag.getAuftragsNr());
+			jAuftrag.put("istAbgeschlossen", auftrag.getIstAbgeschlossen());
+			jAuftrag.put("beauftragtAm", auftrag.getBeauftragtAm().getTime());
+			response.add(jAuftrag);
 		}
-		return null;
+		return response;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public JSONObject getAllBauteile() {
-		// TODO Auto-generated method stub
-		return null;
+	public JSONArray getAllBauteile() {
+		JSONArray response = new JSONArray();
+		List<Bauteil> bauteilListe = fertigungServices.readAllBauteile();
+		for (Bauteil bauteil : bauteilListe) {
+			JSONObject jBauteil = new JSONObject();
+			jBauteil.put("bauteilNr", bauteil.getBauteilNr());
+			jBauteil.put("name", bauteil.getName());
+			response.add(jBauteil);
+		}
+		return response;
 	}
-	
 }

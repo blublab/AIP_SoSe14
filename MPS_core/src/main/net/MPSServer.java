@@ -1,19 +1,25 @@
 package main.net;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
-public class MPSServer extends Thread{
+public class MPSServer extends Thread {
 
 	private ServerSocket providerSocket;
 	Socket connection = null;
-	ObjectOutputStream out;
-	ObjectInputStream in;
+	OutputStream out;
+	InputStream in;
 	int local_port;
 	NetBusinessApp app;
 
@@ -28,12 +34,40 @@ public class MPSServer extends Thread{
 			try {
 				providerSocket = new ServerSocket(local_port);
 				connection = providerSocket.accept();
-				out = new ObjectOutputStream(connection.getOutputStream());
+				out = connection.getOutputStream();
 				out.flush();
-				in = new ObjectInputStream(connection.getInputStream());
-				JSONObject response = new JSONObject();
-				response.put("response", "Connection established.");
-				sendMessage(response);
+				in = connection.getInputStream();
+				BufferedReader br = new BufferedReader(new InputStreamReader(in));
+				String request = br.readLine();
+				System.out.println(request);
+				request = request.trim();
+				Object obj_rq = JSONValue.parse(request);
+				JSONObject json_rq = (JSONObject) obj_rq;
+				String command = (String) json_rq.get("command");
+				System.out.println("Received command: " + command);
+				switch (command) {
+				case "createAngebot" :
+					Long kundenNrLong = (Long) json_rq.get("kundenNr");
+					int kundenNr = kundenNrLong.intValue();
+					Long bauteilNrLong = (Long) json_rq.get("bauteilNr");
+					int bauteilNr = bauteilNrLong.intValue();
+					sendMessage(app.createAngebot(kundenNr, bauteilNr));
+					break;
+				case "acceptAngebot" :
+					Long angebotNrLong = (Long) json_rq.get("angebotNr");
+					int angebotNr = angebotNrLong.intValue();
+					sendMessage(app.acceptAngebot(angebotNr));
+					break;
+				case "getAllAngebote" :
+					sendMessage(app.getAllAngebote());
+					break;
+				case "getAllAuftraege" :
+					sendMessage(app.getAllAuftraege());
+					break;
+				case "getAllBauteile" :
+					sendMessage(app.getAllBauteile());
+					break;
+				}
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			} finally {
@@ -49,8 +83,23 @@ public class MPSServer extends Thread{
 
 	void sendMessage(JSONObject obj) {
 		try {
-			out.writeObject(obj);
-			out.flush();
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+			bw.write(obj.toJSONString());
+			bw.write("\n");
+			bw.flush();
+			bw.close();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		}
+	}
+	
+	void sendMessage(JSONArray ary) {
+		try {
+			BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+			bw.write(ary.toJSONString());
+			bw.write("\n");
+			bw.flush();
+			bw.close();
 		} catch (IOException ex) {
 			ex.printStackTrace();
 		}

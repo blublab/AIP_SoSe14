@@ -1,6 +1,5 @@
 package main.appBuilder;
 
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -19,8 +18,9 @@ public class Starter {
 		int monitor_port = 0;
 		long period = 0;
 		try {
-			input = new FileInputStream("cfg/server.cfg");
+			input = Starter.class.getResourceAsStream("/cfg/server.cfg");
 			prop.load(input);
+			input.close();
 			local_port = Integer.parseInt(prop.getProperty("local_port"));
 			monitor_host = prop.getProperty("monitor_host");
 			monitor_port = Integer.parseInt(prop.getProperty("monitor_port"));
@@ -36,6 +36,10 @@ public class Starter {
 				}
 			}
 		}
+		System.out.println("Local port: " + local_port);
+		System.out.println("Monitor host: " + monitor_host);
+		System.out.println("Monitor port: " + monitor_port);
+		System.out.println("Heartbeat period: " + period + "ms");
 		
 		TimerTask heartbeatTask = new HeartbeatTask(local_port, monitor_host,
 				monitor_port);

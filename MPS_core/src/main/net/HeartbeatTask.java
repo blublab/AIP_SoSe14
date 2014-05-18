@@ -1,22 +1,19 @@
 package main.net;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 import java.lang.management.OperatingSystemMXBean;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.TimerTask;
 
 import org.json.simple.JSONObject;
 
 public class HeartbeatTask extends TimerTask {
-	Socket requestSocket;
-	ObjectOutputStream out;
-	ObjectInputStream in;
+	DatagramSocket requestSocket;
 	int local_port;
 	String monitor_host;
 	int monitor_port;
@@ -33,10 +30,7 @@ public class HeartbeatTask extends TimerTask {
 	public void run()
 	{
 		try{
-            requestSocket = new Socket(monitor_host, monitor_port);
-            out = new ObjectOutputStream(requestSocket.getOutputStream());
-            out.flush();
-            in = new ObjectInputStream(requestSocket.getInputStream());
+            requestSocket = new DatagramSocket();
             sendBeat();
         }
         catch(UnknownHostException unknownHost){
@@ -46,17 +40,11 @@ public class HeartbeatTask extends TimerTask {
             ioException.printStackTrace();
         }
         finally{
-            try{
-                in.close();
-                out.close();
-                requestSocket.close();
-            }
-            catch(IOException ioException){
-                ioException.printStackTrace();
-            }
+        	requestSocket.close();
         }
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void sendBeat() throws UnknownHostException
 	{
 		OperatingSystemMXBean cpu_bean = ManagementFactory.getOperatingSystemMXBean();
@@ -66,11 +54,15 @@ public class HeartbeatTask extends TimerTask {
 		beat.put("port", new Integer(local_port));
 		beat.put("systemload", new Double(cpu_bean.getSystemLoadAverage()));
 		beat.put("memeory_avail", new Long(memory_bean.getHeapMemoryUsage().getUsed()));
-		try{
-			out.writeObject(beat);
-			out.flush();
-		} catch (IOException ex) {
-			ex.printStackTrace();
+		
+		String beatS = beat.toJSONString();
+		byte[] sendData = beatS.getBytes();
+		InetAddress monitorAddress = InetAddress.getByName(monitor_host);
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, monitorAddress, monitor_port);
+		try {
+			requestSocket.send(sendPacket);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 }

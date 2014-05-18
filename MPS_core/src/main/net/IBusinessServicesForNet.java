@@ -1,5 +1,6 @@
 package main.net;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 public interface IBusinessServicesForNet {
@@ -23,17 +24,17 @@ public interface IBusinessServicesForNet {
 	 * Liefert alle Angebote.
 	 * @return
 	 */
-	JSONObject getAllAngebote();
+	JSONArray getAllAngebote();
 	
 	/**
 	 * Liefert alle Auftraege.
 	 * @return
 	 */
-	JSONObject getAllAuftraege();
+	JSONArray getAllAuftraege();
 	
 	/**
 	 * Liefert alle Bauteile.
 	 * @return
 	 */
-	JSONObject getAllBauteile();
+	JSONArray getAllBauteile();
 }
