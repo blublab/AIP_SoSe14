@@ -16,14 +16,13 @@ import main.fertigungKomponente.dataAccessLayer.Bauteil;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
-public class NetBusinessApp implements IBusinessServicesForNet{
+public class NetBusinessApp implements IBusinessServicesForNet {
 	private IAuftragServices auftragServices;
 	private IFertigungServices fertigungServices;
 	private IAuftragServicesFuerFertigung auftragServicesFuerFertigung;
 	private IFertigungServicesFuerAuftrag fertigungsServicesFuerAuftrag;
-	
-	public NetBusinessApp()
-	{
+
+	public NetBusinessApp() {
 		FertigungKomponenteFacade fertigungFacade = new FertigungKomponenteFacade();
 		fertigungServices = fertigungFacade;
 		fertigungsServicesFuerAuftrag = fertigungFacade;
@@ -33,14 +32,13 @@ public class NetBusinessApp implements IBusinessServicesForNet{
 		auftragServicesFuerFertigung = auftragFacade;
 		fertigungFacade.setAuftragServices(auftragServicesFuerFertigung);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	@Override
-	public JSONObject createAngebot(int kundenNr, int bauteilNr)
-	{
+	public JSONObject createAngebot(int kundenNr, int bauteilNr) {
 		JSONObject response = new JSONObject();
 		Angebot angebot = auftragServices.createAngebot(kundenNr, bauteilNr);
-		if(angebot != null)	
+		if (angebot != null)
 			response.put("response", true);
 		else
 			response.put("response", false);
@@ -59,7 +57,7 @@ public class NetBusinessApp implements IBusinessServicesForNet{
 		} catch (InvalidAngebotStatusException e) {
 			e.printStackTrace();
 		}
-		if(auftrag != null)	
+		if (auftrag != null)
 			response.put("response", true);
 		else
 			response.put("response", false);
@@ -71,20 +69,27 @@ public class NetBusinessApp implements IBusinessServicesForNet{
 	public JSONArray getAllAngebote() {
 		JSONArray response = new JSONArray();
 		List<Angebot> angebotList = auftragServices.readAllAngebote();
-		for (Angebot angebot : angebotList) {
-			JSONObject jAngebot = new JSONObject();
-			jAngebot.put("angebotNr", angebot.getAngebotNr());
-			jAngebot.put("gueltigAb", angebot.getGueltigAb().getTime());
-			jAngebot.put("gueltigBis", angebot.getGueltigBis().getTime());
-			jAngebot.put("preis", angebot.getPreis());
-			jAngebot.put("status", new String(angebot.getStatus().toString()));
-			jAngebot.put("bauteil", angebot.getBauteilNr());
-			Auftrag auftrag = angebot.getAuftrag();
-			if(auftrag != null)
-				jAngebot.put("auftrag", auftrag.getAuftragsNr());
-			else
-				jAngebot.put("auftrag", "0");
-			response.add(jAngebot);
+		if (angebotList == null) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("response", false);
+			response.add(jObj);
+		} else {
+			for (Angebot angebot : angebotList) {
+				JSONObject jAngebot = new JSONObject();
+				jAngebot.put("angebotNr", angebot.getAngebotNr());
+				jAngebot.put("gueltigAb", angebot.getGueltigAb().getTime());
+				jAngebot.put("gueltigBis", angebot.getGueltigBis().getTime());
+				jAngebot.put("preis", angebot.getPreis());
+				jAngebot.put("status", new String(angebot.getStatus()
+						.toString()));
+				jAngebot.put("bauteil", angebot.getBauteilNr());
+				Auftrag auftrag = angebot.getAuftrag();
+				if (auftrag != null)
+					jAngebot.put("auftrag", auftrag.getAuftragsNr());
+				else
+					jAngebot.put("auftrag", "0");
+				response.add(jAngebot);
+			}
 		}
 		return response;
 	}
@@ -93,13 +98,20 @@ public class NetBusinessApp implements IBusinessServicesForNet{
 	@Override
 	public JSONArray getAllAuftraege() {
 		JSONArray response = new JSONArray();
-		List<Auftrag> auftragList = auftragServices.readAllAuftraege();		
-		for (Auftrag auftrag : auftragList) {
-			JSONObject jAuftrag = new JSONObject();
-			jAuftrag.put("auftragNr", auftrag.getAuftragsNr());
-			jAuftrag.put("istAbgeschlossen", auftrag.getIstAbgeschlossen());
-			jAuftrag.put("beauftragtAm", auftrag.getBeauftragtAm().getTime());
-			response.add(jAuftrag);
+		List<Auftrag> auftragList = auftragServices.readAllAuftraege();
+		if (auftragList == null) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("response", false);
+			response.add(jObj);
+		} else {
+			for (Auftrag auftrag : auftragList) {
+				JSONObject jAuftrag = new JSONObject();
+				jAuftrag.put("auftragNr", auftrag.getAuftragsNr());
+				jAuftrag.put("istAbgeschlossen", auftrag.getIstAbgeschlossen());
+				jAuftrag.put("beauftragtAm", auftrag.getBeauftragtAm()
+						.getTime());
+				response.add(jAuftrag);
+			}
 		}
 		return response;
 	}
@@ -109,11 +121,17 @@ public class NetBusinessApp implements IBusinessServicesForNet{
 	public JSONArray getAllBauteile() {
 		JSONArray response = new JSONArray();
 		List<Bauteil> bauteilListe = fertigungServices.readAllBauteile();
-		for (Bauteil bauteil : bauteilListe) {
-			JSONObject jBauteil = new JSONObject();
-			jBauteil.put("bauteilNr", bauteil.getBauteilNr());
-			jBauteil.put("name", bauteil.getName());
-			response.add(jBauteil);
+		if (bauteilListe == null) {
+			JSONObject jObj = new JSONObject();
+			jObj.put("response", false);
+			response.add(jObj);
+		} else {
+			for (Bauteil bauteil : bauteilListe) {
+				JSONObject jBauteil = new JSONObject();
+				jBauteil.put("bauteilNr", bauteil.getBauteilNr());
+				jBauteil.put("name", bauteil.getName());
+				response.add(jBauteil);
+			}
 		}
 		return response;
 	}
