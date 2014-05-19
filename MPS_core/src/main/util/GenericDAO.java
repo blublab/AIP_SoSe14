@@ -2,6 +2,7 @@ package main.util;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -100,10 +101,11 @@ public class GenericDAO<T> implements IGenericDao<T> {
 		Transaction tx = null;
 		try {
 			tx = session.beginTransaction();
-			Object o = session.createCriteria(type).list();
+			Query query = session.createQuery("From " + type.getName());
+			List<T> o = query.list();
 			tx.commit();
 			assert o != null;
-			return (List<T>) o;
+			return o;
 		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();

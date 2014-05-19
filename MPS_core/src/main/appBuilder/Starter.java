@@ -36,16 +36,17 @@ public class Starter {
 				}
 			}
 		}
+		local_port = Integer.parseInt(args[0]);
+
 		System.out.println("Local port: " + local_port);
 		System.out.println("Monitor host: " + monitor_host);
 		System.out.println("Monitor port: " + monitor_port);
 		System.out.println("Heartbeat period: " + period + "ms");
-		
+
 		TimerTask heartbeatTask = new HeartbeatTask(local_port, monitor_host,
 				monitor_port);
 		Timer timer = new Timer();
 		timer.schedule(heartbeatTask, 0, period);
-		
 		
 		Thread mps_server = new MPSServer(local_port);
 		mps_server.start();

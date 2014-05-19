@@ -50,10 +50,11 @@ public class HeartbeatTask extends TimerTask {
 		OperatingSystemMXBean cpu_bean = ManagementFactory.getOperatingSystemMXBean();
 		MemoryMXBean memory_bean = ManagementFactory.getMemoryMXBean();
 		JSONObject beat = new JSONObject();
+		Double cpuLoad = cpu_bean.getSystemLoadAverage();
 		beat.put("host", new String(InetAddress.getLocalHost().getHostAddress()));
 		beat.put("port", new Integer(local_port));
-		beat.put("systemload", new Double(cpu_bean.getSystemLoadAverage()));
-		beat.put("memeory_avail", new Long(memory_bean.getHeapMemoryUsage().getUsed()));
+		beat.put("systemload", cpuLoad);
+		beat.put("memeory_avail", new Long(memory_bean.getHeapMemoryUsage().getMax()));
 		
 		String beatS = beat.toJSONString();
 		byte[] sendData = beatS.getBytes();
