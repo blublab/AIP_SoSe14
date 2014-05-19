@@ -22,6 +22,8 @@ public class Balancer {
 	}
 	
 	public void calculateCurrentSlacker() {
+		if (activeHosts.size() == 0)
+			currentSlacker = null;
 		
 //		JSONObject test = new JSONObject();
 //		test.put("host", "136.172.80.148");
@@ -32,13 +34,13 @@ public class Balancer {
 		Double lowestLoad = Double.MAX_VALUE;
 		Double currentLoad = 0.0; 
 		for (JSONObject host : activeHosts) {
-			currentLoad = (Double) host.get("load");
+			currentLoad = Double.parseDouble((String) host.get("load"));
 			if (currentLoad < lowestLoad) {
 				lowestLoad = currentLoad;
 				currentSlacker = host;
 			}
 		}
 		
-		System.out.println("New Slacker: " + currentSlacker);
+//		System.out.println("New Slacker: " + currentSlacker);
 	}
 }

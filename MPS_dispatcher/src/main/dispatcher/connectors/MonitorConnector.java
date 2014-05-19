@@ -1,5 +1,14 @@
 package main.dispatcher.connectors;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,75 +16,92 @@ import main.dispatcher.engine.Balancer;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 public class MonitorConnector {
 	private Receiver receiver = null;
 	private Balancer balancer = null;
+
+	protected String monitorUrl = null;
+	protected int monitorPort = 0;
 	
-	protected static String monitorUrl = null;
-	
+	private Socket sock = null;
+	private BufferedWriter writer = null;
+
 	public MonitorConnector(Balancer balancer) {
-		this.monitorUrl = "1.2.3.4";
+		this.monitorUrl = "141.22.68.71";
+		this.monitorPort = 6789;
 		this.balancer = balancer;
 		this.receiver = new Receiver();
 		this.receiver.start();
+
+		boolean retry = true;
+		while(retry) {
+			try {
+				this.sock = new Socket(monitorUrl, monitorPort);
+				this.writer = new BufferedWriter(new OutputStreamWriter(this.sock.getOutputStream()));
+				System.out.println("Connection established: " + sock.isConnected() );
+				retry = false;
+			} catch (Exception e) {
+				retry = true;
+				System.out.println(e.getMessage());
+			}
+		}
 	}
-	
-	public void publishTransaction(String host, int port) {
-		JSONObject test = new JSONObject();
-		test.put("host", host);
-		test.put("port", port);
-		System.out.println("Sent to monitor: " + test.toJSONString());
-		// send address of dispatched transaction to monitor
+
+	public void publishTransaction(JSONObject host) {
+		System.out.print("Message dispatched to: " + host.toJSONString());
+		try {
+			this.writer.write(host.toJSONString() + "\n");
+			this.writer.flush();
+			System.out.println(" ...SUCCESS");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-	
+
 	private class Receiver extends Thread {
 		@Override
 		public void run() {
 			int retries = 3;
 			boolean run = true;
-			
+
 			while (run) {
-				while (true) {
-					try {
-						Thread.sleep(10000);
-						JSONArray testArr = new JSONArray();
-						
-						JSONObject testObj1 = new JSONObject();
-						testObj1.put("host", "1.2.3.4");
-						testObj1.put("port", 1234);
-						testObj1.put("load", 0.123);
-						
-						JSONObject testObj2 = new JSONObject();
-						testObj2.put("host", "2.2.3.4");
-						testObj2.put("port", 1234);
-						testObj2.put("load", 0.223);						
-						JSONObject testObj3 = new JSONObject();
-						testObj3.put("host", "3.2.3.4");
-						testObj3.put("port", 1234);
-						testObj3.put("load", 0.0323);						
-						List<JSONObject> hostList = new ArrayList<JSONObject>();
-						
-						hostList.add(testObj1);
-						hostList.add(testObj2);
-						hostList.add(testObj3);
-						
-						testArr.addAll(hostList);
-						
-						System.out.println("Received from Monitor: " + testArr.toJSONString());
-						
-						List<JSONObject> activeHosts = new ArrayList<JSONObject>();
-						
-						for (Object host : testArr.toArray()) {
-							activeHosts.add((JSONObject) host);
+				ServerSocket welcomeSocket;
+				try {
+					welcomeSocket = new ServerSocket(3301);
+					Socket connectionSocket = welcomeSocket.accept();
+					BufferedReader inFromClient = new BufferedReader(
+							new InputStreamReader(
+									connectionSocket.getInputStream()));
+
+					while (run) {
+						try {
+							String hostList = inFromClient.readLine();
+//							if (hostList == null) { continue; }
+							hostList = hostList.trim();
+							System.out.println("Received: " + hostList);
+
+							JSONArray jHostList = (JSONArray) JSONValue
+									.parse(hostList);
+
+							List<JSONObject> activeHosts = new ArrayList<JSONObject>();
+
+							for (Object host : jHostList.toArray()) {
+								activeHosts.add((JSONObject) host);
+							}
+
+							balancer.setActiveHosts(activeHosts);
+						} finally {
+
 						}
-												
-						balancer.setActiveHosts(activeHosts);
-						
-					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}// read messages from Monitor and pass them to the balancer
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} finally {
+
 				}
 			}
 		}

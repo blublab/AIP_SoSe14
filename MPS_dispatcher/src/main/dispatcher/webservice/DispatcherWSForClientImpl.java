@@ -11,7 +11,7 @@ import javax.xml.ws.BindingType;
 import main.dispatcher.engine.RQHandler;
 
 @WebService(endpointInterface="main.dispatcher.webservice.IDispatcherWSForClient")
-@BindingType(value="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/")
+//BindingType(value="http://java.sun.com/xml/ns/jaxws/2003/05/soap/bindings/HTTP/")
 public class DispatcherWSForClientImpl implements IDispatcherWSForClient {
 
 	private RQHandler rqHandler = null;
@@ -26,8 +26,8 @@ public class DispatcherWSForClientImpl implements IDispatcherWSForClient {
 	}
 
 	@Override
-	public String nimmAngebotAn(int angebotNr) {
-		return rqHandler.nimmAngebotAn(angebotNr);
+	public String acceptAngebot(int angebotNr) {
+		return rqHandler.acceptAngebot(angebotNr);
 	}
 	
 	@Override
@@ -40,6 +40,13 @@ public class DispatcherWSForClientImpl implements IDispatcherWSForClient {
 		return rqHandler.getAllAuftraege();
 	}
 
+	@Override
+	public String getAllBauteile() {
+		System.out.println("DispatcherWSForClientImpl: GetAllBauteile Request");
+
+		return rqHandler.getAllBauteile();
+	}
+	
 	@Override
 	public String echo(String s) {
 		System.out.println("echoing: " + s);

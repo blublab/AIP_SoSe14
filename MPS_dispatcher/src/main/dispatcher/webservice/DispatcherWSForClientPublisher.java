@@ -20,11 +20,11 @@ public class DispatcherWSForClientPublisher {
 		logger = Logger.getGlobal();
 		createProperties();
 		
-		String webserviceEndpoint = "http://136.172.80.201:4000/dispatcher";
+		String webserviceEndpoint = "http://141.22.70.216:4000/dispatcher";
 		
 		Endpoint.publish(webserviceEndpoint, new DispatcherWSForClientImpl());
 		Timer timer = new Timer();
-		timer.schedule(new SayAllive(), 0, 3000);
+		timer.schedule(new SayAllive(), 0, 9000);
 	}
 	
 	public static void createProperties() {
