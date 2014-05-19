@@ -45,8 +45,9 @@ public class DispatcherClient {
         while(iter.hasNext()){
             client = iter.next();
             message += "{";
-            message += "\"host\":\"" + client.getAddress().getHostAddress() + "\"";
-            message += "\"port\":\"" + client.getPort() + "\"";
+            message += "\"host\":\"" + client.getAddress().getHostAddress() + "\",";
+            message += "\"port\":\"" + client.getPort() + "\",";
+            message += "\"load\":\"" + client.getLoad() + "\"";
             message += "}";
             message += ",";
         }
@@ -56,7 +57,7 @@ public class DispatcherClient {
         message += "]";
 
         try {
-            this.outToServer.writeUTF(message);
+            this.outToServer.writeBytes(message + "\n");
             System.out.println(">> " + message);
         } catch (IOException e) {
             e.printStackTrace();

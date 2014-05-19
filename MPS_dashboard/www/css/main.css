@@ -27,5 +27,5 @@ ul.mps-status li.green {
     background-color: green;
 }
 ul.mps-status li.grey {
-    background-color: grey;
+    background-color: #cccccc;
 }

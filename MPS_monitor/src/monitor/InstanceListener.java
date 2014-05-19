@@ -3,19 +3,18 @@ package monitor;
 import clients.Client;
 import clients.ClientList;
 import config.Configuration;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.SocketException;
+import java.net.*;
 import java.util.HashMap;
 
 public class InstanceListener extends Thread {
 
     private ClientList clientList;
     private DatagramSocket serverSocket;
-    private static InstanceListener instace = null;
 
     public InstanceListener(){
 
@@ -31,28 +30,17 @@ public class InstanceListener extends Thread {
         }
     }
 
-    private HashMap<String, String> parseMessage(String message){
-        HashMap<String, String> parsedMap = new HashMap<String, String>();
-        String[] groupArray = message.split("&");
-        for(int i=0; i<groupArray.length; i++) {
-            String[] pairArray = groupArray[i].split("=");
-            if(pairArray.length == 2) {
-                parsedMap.put(pairArray[0], pairArray[1]);
-            }
-        }
-        return parsedMap;
-    }
-
     @Override
     public void run(){
         DatagramPacket receivePacket;
         String sentence;
         InetAddress receiveAddress;
-        Integer receivePort, load;
+        Integer receivePort;
         HashMap<String, String> msgmap;
         Client client;
+        Double load;
 
-        byte[] receiveData = new byte[64];
+        byte[] receiveData = new byte[1024];
         while(true)
         {
             receivePacket = new DatagramPacket(receiveData, receiveData.length);
@@ -66,19 +54,29 @@ public class InstanceListener extends Thread {
             receivePort = receivePacket.getPort();
             sentence = new String( receivePacket.getData()).trim();
 
-            msgmap = this.parseMessage(sentence);
+            Object msg = JSONValue.parse(sentence);
+            JSONObject obj = (JSONObject)msg;
 
-            if (msgmap.containsKey("ping") && msgmap.containsKey("load")){
-                load = Integer.parseInt(msgmap.get("load"));
+            InetAddress host = null;
+            Integer port = null;
+            if (obj.get("systemload").toString().length() > 0){
 
-                System.out.println("<< " + receiveAddress.getHostAddress() + ":" + receivePort + " (" + sentence + ")");
+                try {
+                    host = InetAddress.getByName(obj.get("host").toString());
+                } catch (UnknownHostException e) {
+                    e.printStackTrace();
+                }
+                port = Integer.parseInt(obj.get("port").toString());
+                load = Double.parseDouble(obj.get("systemload").toString());
 
-                if(this.clientList.has(receiveAddress, receivePort)){
-                    client = this.clientList.get(receiveAddress, receivePort);
+//System.out.println("<< " + host.getHostAddress() + ":" + port + " (" + sentence + ")");
+
+                if(this.clientList.has(host, port)){
+                    client = this.clientList.get(host, port);
                     client.refreshSignal();
                     client.setLoad(load);
                 }else{
-                    this.clientList.add(receiveAddress, receivePort);
+                    this.clientList.add(host, port);
                 }
             }
         }

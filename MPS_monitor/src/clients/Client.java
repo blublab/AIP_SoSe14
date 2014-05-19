@@ -7,7 +7,7 @@ public class Client {
 
     private InetAddress address;
     private Integer port;
-    private Integer load;
+    private Double load;
     private Status status;
     private Integer query;
     private Date signal;
@@ -18,9 +18,9 @@ public class Client {
     public Client(InetAddress address, Integer port){
         this.address = address;
         this.port = port;
-        this.load = 100;
+        this.load = 0d;
         this.query = 0;
-        this.setStatus(Status.YELLOW);
+        this.setStatus(Status.GREEN);
         this.refreshSignal();
     }
 
@@ -36,11 +36,11 @@ public class Client {
         return status;
     }
 
-    public Integer getLoad() {
+    public Double getLoad() {
         return load;
     }
 
-    public void setLoad(Integer load) {
+    public void setLoad(Double load) {
         this.load = load;
     }
 

@@ -13,10 +13,10 @@ var wsLib = require('./lib/ws'),
 /*********************/
 var WStoSOAP = {},
 
-    wsServerHost = '127.0.0.1',
+    wsServerHost = '141.22.68.71',
     wsServerPort = 8001,
 
-    httpServerHost = '127.0.0.1',
+    httpServerHost = '141.22.68.71',
     httpServerPort = 8002,
     documentRoot = './www',
     defaultFile = '/index.html',
@@ -31,9 +31,10 @@ var WStoSOAP = {},
     },
 
     soapDispatcherProtocol = 'http',
-    soapDispatcherHost = '127.0.0.1',
-    soapDispatcherPort = 7891,
-    soapDispatcherPath = 'dispatcher?wsdl';
+    soapDispatcherHost = '141.22.70.216',
+    soapDispatcherPort = 4000,
+    soapDispatcherPath = 'dispatcher?wsdl',
+    soapEndpoint = "main.dispatcher.webservice.IDispatcherWSForClient";
 
 
 /************************/
@@ -74,35 +75,15 @@ wsServer.on('connection', function(ws) {
 /*******************/
 /*** SOAP CLient ***/
 /*******************/
-WStoSOAP = {
-    getAllAngebote: function(data, func){
-        func(false, {"return": '[{"angebotNr": 2, "gueltingAb": "19.12.2013", "gueltigBis": "23.12.2013", "preis": "59.23", "status": "angenommen", "bauteil": 40, "auftrag": 3}, {"angebotNr": 1, "gueltingAb": "5.12.2013", "gueltigBis": "10.12.2013", "preis": "20", "status": "", "bauteil": 12, "auftrag": null}]'})
-    },
-    getAllAuftraege: function(data, func){
-        func(false, {"return": '[{"auftragNr": 5, "istAbgeschlossen": "false", "beauftragtAm": "04.01.2003"}]'})
-    },
-    getAllBauteile: function(data, func){
-        func(false, {"return": '[{"bauteilNr": 321, "name": "Rad"}, {"bauteilNr": 654, "name": "Axt"}, {"bauteilNr": 987, "name": "Pümpel"}]'});
-    },
-    createAngebot: function(data, func){
-        func(false, {"return": '["created???"]'});
-    },
-    acceptAngebot: function(data, func){
-        func(false, {"return": '["accepted???"]'});
-    }
-}
-/*
-var endpoint = "monitor.WebServiceInterface",
-    url = soapDispatcherProtocol + '://' + soapDispatcherHost + ':' + soapDispatcherPort + '/' + soapDispatcherPath;
-
-soapLib.createClient(url, endpoint, function(err, client) {
+var url = soapDispatcherProtocol + '://' + soapDispatcherHost + ':' + soapDispatcherPort + '/' + soapDispatcherPath;
+soapLib.createClient(url, soapEndpoint, function(err, client) {
 
     if (err) {
         console.log(err);
         return;
     }
 
-    for (var name in client.describe().WebServiceImplService.WebServiceImplPort) {
+    for (var name in client.describe().DispatcherWSForClientImplService.DispatcherWSForClientImplPort) {
         WStoSOAP[name] = (function(key) {
             return function(args, func) {
                 if (args === Object(args) && typeof func === 'function') {
@@ -113,7 +94,7 @@ soapLib.createClient(url, endpoint, function(err, client) {
     }
 
 });
-*/
+
 
 
 /*******************/

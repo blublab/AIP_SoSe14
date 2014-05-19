@@ -34,7 +34,7 @@ public class Cleanup extends TimerTask {
             cc = it.next();
             if(this.isOutdated(cc.getSignal()) == true && cc.getStatus() != Status.RED){
                 cc.setStatus(Status.RED);
-                System.out.println("xx " + cc.getAddress().getHostAddress() + ":" + cc.getPort());
+//System.out.println("xx " + cc.getAddress().getHostAddress() + ":" + cc.getPort());
             }
             if(this.isOutdated(cc.getSignal()) == false){
                 switch (cc.getStatus()){
@@ -46,12 +46,12 @@ public class Cleanup extends TimerTask {
                         green.add(cc);
                         break;
                 }
-                System.out.println("++ " + cc.getAddress().getHostAddress() + ":" + cc.getPort());
+//System.out.println("++ " + cc.getAddress().getHostAddress() + ":" + cc.getPort());
             }
         }
 
         // tell dispatcher green (active) clients
-        //DispatcherClient.getInstance().send(green);
+        DispatcherClient.getInstance().send(green);
 
         this.lastCleanup = new Date();
     }

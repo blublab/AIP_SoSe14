@@ -12,10 +12,10 @@ var wsLib = require('./lib/ws'),
 /*********************/
 var WStoSOAP = {},
     
-    wsServerHost = '127.0.0.1',
+    wsServerHost = '141.22.68.71',
     wsServerPort = 8888,
     
-    httpServerHost = '127.0.0.1',
+    httpServerHost = '141.22.68.71',
     httpServerPort = 8003,
     documentRoot = './www',
     defaultFile = '/index.html',
@@ -30,9 +30,10 @@ var WStoSOAP = {},
     },
     
     soapMonitorProtocol = 'http',
-    soapMonitorHost = '127.0.0.1',
+    soapMonitorHost = '141.22.68.71',
     soapMonitorPort = 7890,
-    soapMonitorPath = 'monitor?wsdl';
+    soapMonitorPath = 'monitor?wsdl',
+    soapEndport = 'webservice.WebServiceInterface';
 
 /************************/
 /*** WebSocket Server ***/
@@ -73,14 +74,16 @@ wsServer.on('connection', function(ws) {
 /*******************/
 /*** SOAP CLient ***/
 /*******************/
-var endpoint = "monitor.WebServiceInterface",
-    url = soapMonitorProtocol + '://' + soapMonitorHost + ':' + soapMonitorPort + '/' + soapMonitorPath;
-soapLib.createClient(url, endpoint, function(err, client) {
+var url = soapMonitorProtocol + '://' + soapMonitorHost + ':' + soapMonitorPort + '/' + soapMonitorPath;
+console.log(url);
+soapLib.createClient(url, soapEndport, function(err, client) {
 
     if (err) {
         console.log(err);
         return;
     }
+
+//console.log(client.describe());
 
     for (var name in client.describe().WebServiceImplService.WebServiceImplPort) {
         WStoSOAP[name] = (function(key) {

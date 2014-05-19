@@ -1,6 +1,7 @@
 package monitor;
 
 import config.Configuration;
+import webservice.WebServicePublisher;
 
 import java.util.Timer;
 
@@ -15,7 +16,11 @@ public class Monitor{
         instanceListener.start();
 
         // DispatcherClient (TCP)
-        //DispatcherClient dispatcherClient = DispatcherClient.getInstance();
+        DispatcherClient dispatcherClient = DispatcherClient.getInstance();
+
+        // DispatcherServer (TCP)
+        DispatcherServer dispatcherServer = new DispatcherServer();
+        dispatcherServer.start();
 
         // Publisher (HTTP, SOAP)
         WebServicePublisher publisher = new WebServicePublisher();
