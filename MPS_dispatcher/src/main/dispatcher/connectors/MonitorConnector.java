@@ -47,13 +47,13 @@ public class MonitorConnector {
 						testObj1.put("load", 0.123);
 						
 						JSONObject testObj2 = new JSONObject();
-						testObj2.put("host", "1.2.3.4");
+						testObj2.put("host", "2.2.3.4");
 						testObj2.put("port", 1234);
-						testObj2.put("load", 0.123);						
+						testObj2.put("load", 0.223);						
 						JSONObject testObj3 = new JSONObject();
-						testObj3.put("host", "1.2.3.4");
+						testObj3.put("host", "3.2.3.4");
 						testObj3.put("port", 1234);
-						testObj3.put("load", 0.123);						
+						testObj3.put("load", 0.0323);						
 						List<JSONObject> hostList = new ArrayList<JSONObject>();
 						
 						hostList.add(testObj1);
