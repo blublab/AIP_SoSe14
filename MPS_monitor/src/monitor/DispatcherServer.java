@@ -61,6 +61,7 @@ public class DispatcherServer extends Thread {
             xHost = obj.get("host").toString();
             xPort = obj.get("port").toString();
 
+            System.out.println("<<" + clientSentence);
 
             if(xHost != null && xPort != null){
                 CoreList.getInstance().get(xHost, xPort).incrementQuery();

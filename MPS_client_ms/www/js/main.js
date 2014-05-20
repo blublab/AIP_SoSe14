@@ -1,5 +1,5 @@
 var WS = null,
-    host = '141.22.68.71',
+    host = '127.0.0.1',
     port = 8001,
     path = '/';
 

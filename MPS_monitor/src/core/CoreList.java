@@ -82,7 +82,9 @@ public class CoreList implements Iterable{
         while(it.hasNext()){
             str += it.next().toString() + ",";
         }
-        str = str.substring(0, str.length() - 1);
+        if(this.list.size() > 0){
+            str = str.substring(0, str.length() - 1);
+        }
         str += "]";
         return str;
     }

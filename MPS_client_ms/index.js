@@ -13,10 +13,10 @@ var wsLib = require('./lib/ws'),
 /*********************/
 var WStoSOAP = {},
 
-    wsServerHost = '141.22.68.71',
+    wsServerHost = '127.0.0.1',
     wsServerPort = 8001,
 
-    httpServerHost = '141.22.68.71',
+    httpServerHost = '127.0.0.1',
     httpServerPort = 8002,
     documentRoot = './www',
     defaultFile = '/index.html',
@@ -31,7 +31,7 @@ var WStoSOAP = {},
     },
 
     soapDispatcherProtocol = 'http',
-    soapDispatcherHost = '141.22.70.216',
+    soapDispatcherHost = '127.0.0.1',
     soapDispatcherPort = 4000,
     soapDispatcherPath = 'dispatcher?wsdl',
     soapEndpoint = "main.dispatcher.webservice.IDispatcherWSForClient";

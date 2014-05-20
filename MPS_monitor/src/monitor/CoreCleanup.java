@@ -46,7 +46,7 @@ public class CoreCleanup extends TimerTask {
                         green.add(cc);
                         break;
                 }
-            //System.out.println("++ " + cc.getAddress().getHostAddress() + ":" + cc.getPort());
+            System.out.println("++ " + cc.getAddress().getHostAddress() + ":" + cc.getPort());
             }
         }
 

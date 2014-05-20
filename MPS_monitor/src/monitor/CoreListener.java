@@ -59,7 +59,7 @@ public class CoreListener extends Thread {
 
             InetAddress host = null;
             Integer port = null;
-            if (obj.get("systemload").toString().length() > 0){
+            if (obj != null && obj.get("systemload") != null && obj.get("systemload").toString().length() > 0){
 
                 try {
                     host = InetAddress.getByName(obj.get("host").toString());

@@ -12,10 +12,10 @@ var wsLib = require('./lib/ws'),
 /*********************/
 var WStoSOAP = {},
     
-    wsServerHost = '141.22.68.71',
+    wsServerHost = '127.0.0.1',
     wsServerPort = 8888,
     
-    httpServerHost = '141.22.68.71',
+    httpServerHost = '127.0.0.1',
     httpServerPort = 8003,
     documentRoot = './www',
     defaultFile = '/index.html',
@@ -30,7 +30,7 @@ var WStoSOAP = {},
     },
     
     soapMonitorProtocol = 'http',
-    soapMonitorHost = '141.22.68.71',
+    soapMonitorHost = '127.0.0.1',
     soapMonitorPort = 7890,
     soapMonitorPath = 'monitor?wsdl',
     soapEndport = 'webservice.WebServiceInterface';
@@ -52,7 +52,7 @@ wsServer.on('connection', function(ws) {
         try {
             var message = JSON.parse(msg);
             WStoSOAP[message.func](message.data, function(err, result) {
-                if (!err) {
+                if (!err && result.return) {
                     try {
                         JSON.parse(result.return);
                         var data = JSON.stringify({
@@ -61,8 +61,13 @@ wsServer.on('connection', function(ws) {
                         });
                         ws.send(data);
                     } catch (e) {
+                        console.log('######')
+                        console.log(result);
+                        console.log('######')
                         console.log("Invalid return from WebService (" + message.func + ")");
                     }
+                }else{
+                    //console.log("No return value from (" + message.func + ")");
                 }
             });
         } catch (e) {
@@ -82,8 +87,6 @@ soapLib.createClient(url, soapEndport, function(err, client) {
         console.log(err);
         return;
     }
-
-//console.log(client.describe());
 
     for (var name in client.describe().WebServiceImplService.WebServiceImplPort) {
         WStoSOAP[name] = (function(key) {

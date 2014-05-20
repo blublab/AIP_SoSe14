@@ -20,7 +20,7 @@ public class Core {
         this.port = port;
         this.load = 0d;
         this.query = 0;
-        this.setStatus(CoreStatus.GREEN);
+        this.setStatus(CoreStatus.YELLOW);
         this.refreshSignal();
     }
 
