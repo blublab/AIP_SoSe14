@@ -1,9 +1,8 @@
 package monitor;
 
-import clients.Client;
-import clients.ClientList;
+import core.Core;
+import core.CoreList;
 import config.Configuration;
-import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 
@@ -11,23 +10,24 @@ import java.io.IOException;
 import java.net.*;
 import java.util.HashMap;
 
-public class InstanceListener extends Thread {
+public class CoreListener extends Thread {
 
-    private ClientList clientList;
+    private CoreList coreList;
     private DatagramSocket serverSocket;
 
-    public InstanceListener(){
+    public CoreListener(){
 
         Configuration config = new Configuration();
-        String host = config.get("instanceListenerHost");
-        Integer port = Integer.parseInt(config.get("instanceListenerPort"));
+        String host = config.get("coreListenerHost");
+        Integer port = Integer.parseInt(config.get("coreListenerPort"));
 
-        this.clientList = ClientList.getInstance();
+        this.coreList = CoreList.getInstance();
         try {
             this.serverSocket = new DatagramSocket(port);
         } catch (SocketException e) {
             e.printStackTrace();
         }
+        System.out.println("CoreListener: " + host + ":" + port);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class InstanceListener extends Thread {
         InetAddress receiveAddress;
         Integer receivePort;
         HashMap<String, String> msgmap;
-        Client client;
+        Core core;
         Double load;
 
         byte[] receiveData = new byte[1024];
@@ -69,14 +69,14 @@ public class InstanceListener extends Thread {
                 port = Integer.parseInt(obj.get("port").toString());
                 load = Double.parseDouble(obj.get("systemload").toString());
 
-//System.out.println("<< " + host.getHostAddress() + ":" + port + " (" + sentence + ")");
+                //System.out.println("<< " + host.getHostAddress() + ":" + port + " (" + sentence + ")");
 
-                if(this.clientList.has(host, port)){
-                    client = this.clientList.get(host, port);
-                    client.refreshSignal();
-                    client.setLoad(load);
+                if(this.coreList.has(host, port)){
+                    core = this.coreList.get(host, port);
+                    core.refreshSignal();
+                    core.setLoad(load);
                 }else{
-                    this.clientList.add(host, port);
+                    this.coreList.add(host, port);
                 }
             }
         }

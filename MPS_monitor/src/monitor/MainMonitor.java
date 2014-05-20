@@ -5,18 +5,13 @@ import webservice.WebServicePublisher;
 
 import java.util.Timer;
 
-public class Monitor{
+public class MainMonitor {
 
     public static void main(String[] args){
-        // Configuration
-        Configuration config = new Configuration();
 
-        // InstanceListener (UDP)
-        InstanceListener instanceListener = new InstanceListener();
-        instanceListener.start();
-
-        // DispatcherClient (TCP)
-        DispatcherClient dispatcherClient = DispatcherClient.getInstance();
+        // CoreListener (UDP)
+        CoreListener coreListener = new CoreListener();
+        coreListener.start();
 
         // DispatcherServer (TCP)
         DispatcherServer dispatcherServer = new DispatcherServer();
@@ -25,8 +20,9 @@ public class Monitor{
         // Publisher (HTTP, SOAP)
         WebServicePublisher publisher = new WebServicePublisher();
 
-        // Cleanup
+        // CoreCleanup routine
+        Configuration config = new Configuration();
         Integer ci = Integer.parseInt(config.get("cleanupInterval"));
-        new Timer().schedule(new Cleanup(), 0, ci);
+        new Timer().schedule(new CoreCleanup(), 0, ci);
     }
 }

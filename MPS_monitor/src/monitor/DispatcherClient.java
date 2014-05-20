@@ -1,6 +1,6 @@
 package monitor;
 
-import clients.Client;
+import core.Core;
 import config.Configuration;
 
 import java.io.DataOutputStream;
@@ -30,37 +30,42 @@ public class DispatcherClient {
         try {
             this.clientSocket = new Socket(host, port);
             this.outToServer = new DataOutputStream(clientSocket.getOutputStream());
+            System.out.println("DispatcherClient: " + host + ":" + port);
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("No dispatcher connection");
         }
     }
 
-    public void send(ArrayList<Client> clients){
-        Client client;
+    public void send(ArrayList<Core> cores){
+        Core core;
         String message;
-        Iterator<Client> iter;
+        Iterator<Core> iter;
 
         message = "[";
-        iter = clients.iterator();
+        iter = cores.iterator();
         while(iter.hasNext()){
-            client = iter.next();
+            core = iter.next();
             message += "{";
-            message += "\"host\":\"" + client.getAddress().getHostAddress() + "\",";
-            message += "\"port\":\"" + client.getPort() + "\",";
-            message += "\"load\":\"" + client.getLoad() + "\"";
+            message += "\"host\":\"" + core.getAddress().getHostAddress() + "\",";
+            message += "\"port\":\"" + core.getPort() + "\",";
+            message += "\"load\":\"" + core.getLoad() + "\"";
             message += "}";
             message += ",";
         }
-        if(clients.size() > 0){
+        if(cores.size() > 0){
             message = message.substring(0, message.length() - 1 );
         }
         message += "]";
 
-        try {
-            this.outToServer.writeBytes(message + "\n");
-            System.out.println(">> " + message);
-        } catch (IOException e) {
-            e.printStackTrace();
+        if(this.outToServer != null){
+            try {
+                this.outToServer.writeBytes(message + "\n");
+                System.out.println(">> " + message);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }else{
+            System.err.println("Couldn't send to dispatcher");
         }
     }
 

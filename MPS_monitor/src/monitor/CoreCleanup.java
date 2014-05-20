@@ -1,8 +1,8 @@
 package monitor;
 
-import clients.Client;
-import clients.ClientList;
-import clients.Status;
+import core.Core;
+import core.CoreList;
+import core.CoreStatus;
 import config.Configuration;
 
 import java.util.ArrayList;
@@ -10,47 +10,47 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.TimerTask;
 
-public class Cleanup extends TimerTask {
+public class CoreCleanup extends TimerTask {
 
     private Date lastCleanup;
     private Integer cleanupInterval;
-    private ClientList clientList;
+    private CoreList coreList;
 
-    public Cleanup(){
+    public CoreCleanup(){
         this.lastCleanup = new Date();
         this.cleanupInterval = Integer.parseInt(new Configuration().get("cleanupInterval"));
-        this.clientList = ClientList.getInstance();
+        this.coreList = CoreList.getInstance();
     }
 
     @Override
     public void run() {
-        Client cc;
-        Iterator<Client> it;
-        ArrayList<Client> green;
+        Core cc;
+        Iterator<Core> it;
+        ArrayList<Core> green;
 
-        green = new ArrayList<Client>();
-        it = this.clientList.iterator();
+        green = new ArrayList<Core>();
+        it = this.coreList.iterator();
         while(it.hasNext()){
             cc = it.next();
-            if(this.isOutdated(cc.getSignal()) == true && cc.getStatus() != Status.RED){
-                cc.setStatus(Status.RED);
-//System.out.println("xx " + cc.getAddress().getHostAddress() + ":" + cc.getPort());
+            if(this.isOutdated(cc.getSignal()) == true && cc.getStatus() != CoreStatus.RED){
+                cc.setStatus(CoreStatus.RED);
+                //System.out.println("xx " + cc.getAddress().getHostAddress() + ":" + cc.getPort());
             }
             if(this.isOutdated(cc.getSignal()) == false){
                 switch (cc.getStatus()){
                     case RED:
-                        cc.setStatus(Status.YELLOW);
+                        cc.setStatus(CoreStatus.YELLOW);
                         break;
                     case YELLOW: break;
                     case GREEN:
                         green.add(cc);
                         break;
                 }
-//System.out.println("++ " + cc.getAddress().getHostAddress() + ":" + cc.getPort());
+            //System.out.println("++ " + cc.getAddress().getHostAddress() + ":" + cc.getPort());
             }
         }
 
-        // tell dispatcher green (active) clients
+        // tell dispatcher green (active) core
         DispatcherClient.getInstance().send(green);
 
         this.lastCleanup = new Date();

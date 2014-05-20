@@ -1,18 +1,15 @@
 package monitor;
 
-import clients.ClientList;
+import core.CoreList;
 import config.Configuration;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
-import sun.rmi.server.Dispatcher;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.DatagramSocket;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.net.SocketException;
 
 /**
  * Created by michaseverin on 19.05.14.
@@ -34,6 +31,7 @@ public class DispatcherServer extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        System.out.println("DispatcherServer: " + host + ":" + port);
     }
 
     @Override
@@ -65,7 +63,7 @@ public class DispatcherServer extends Thread {
 
 
             if(xHost != null && xPort != null){
-                ClientList.getInstance().get(xHost, xPort).incrementQuery();
+                CoreList.getInstance().get(xHost, xPort).incrementQuery();
             }
         }
     }
