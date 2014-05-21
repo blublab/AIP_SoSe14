@@ -69,7 +69,7 @@ public class CoreListener extends Thread {
                 port = Integer.parseInt(obj.get("port").toString());
                 load = Double.parseDouble(obj.get("systemload").toString());
 
-                //System.out.println("<< " + host.getHostAddress() + ":" + port + " (" + sentence + ")");
+                System.out.println("<< " + host.getHostAddress() + ":" + port + " (" + sentence + ")");
 
                 if(this.coreList.has(host, port)){
                     core = this.coreList.get(host, port);

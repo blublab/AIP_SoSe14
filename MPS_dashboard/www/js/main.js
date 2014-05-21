@@ -1,5 +1,5 @@
 var WS = null,
-    host = '127.0.0.1',
+    host = '141.22.69.164',
     port = 8888,
     path = '/';
 
@@ -143,5 +143,8 @@ $(document).ready(function() {
         wsicon.style.color = 'grey';
         wsicon.className = 'glyphicon glyphicon-repeat';
         console.log('WebSocket disconnected');
+        window.setTimeout(function(){
+            window.location.reload();
+        }, 1000);
     };
 });

@@ -1,5 +1,5 @@
 var WS = null,
-    host = '127.0.0.1',
+    host = '141.22.69.164',
     port = 8001,
     path = '/';
 
@@ -41,8 +41,8 @@ function renderAngebot(data) {
     var template = $($('#mps-uebersicht-angebot').html());
 
     template.find('.mps-uebersicht-angebotNr').html(data.angebotNr);
-    template.find('.mps-uebersicht-gueltingAb').html(new Date(parseInt(data.gueltingAb)));
-    template.find('.mps-uebersicht-gueltigBis').html(new Date(parseInt(data.gueltigBis)));
+    template.find('.mps-uebersicht-gueltigAb').html(moment(parseInt(data.gueltigAb)).format('YYYY-MM-DD HH:mm:ss'));
+    template.find('.mps-uebersicht-gueltigBis').html(moment(parseInt(data.gueltigBis)).format('YYYY-MM-DD HH:mm:ss'));
     template.find('.mps-uebersicht-preis').html(data.preis + ' €');
     template.find('.mps-uebersicht-status').html(data.status);
     template.find('.mps-uebersicht-bauteil').html(data.bauteil);
@@ -126,6 +126,16 @@ function acceptAngebot() {
     $('.nav-tabs a[href="#uebersicht"]').tab('show');
 }
 
+function refresh() {
+    var rate = 3000;
+    if (WS.readyState == WS.OPEN) {
+        updateAngebote();
+        updateAuftraege();
+        updateBauteile(); 
+    }
+    //window.setTimeout(refresh, rate);
+};
+
 $(document).ready(function() {
     var status = document.getElementById('wsstatus'),
         icon = document.getElementById('wsicon');
@@ -137,6 +147,7 @@ $(document).ready(function() {
         wsicon.style.color = 'green';
         wsicon.className = 'glyphicon glyphicon-ok';
         console.log('WebSocket connected');
+        refresh();
     };
 
     WS.onmessage = function(message) {
@@ -162,6 +173,9 @@ $(document).ready(function() {
         status.innerHTML = 'Closed';
         wsicon.style.color = 'grey';
         wsicon.className = 'glyphicon glyphicon-repeat';
+        window.setTimeout(function(){
+            window.location.reload();
+        }, 1000);
         console.log('WebSocket disconnected');
     };
 

@@ -12,10 +12,10 @@ var wsLib = require('./lib/ws'),
 /*********************/
 var WStoSOAP = {},
     
-    wsServerHost = '127.0.0.1',
+    wsServerHost = '141.22.69.164',
     wsServerPort = 8888,
     
-    httpServerHost = '127.0.0.1',
+    httpServerHost = '141.22.69.164',
     httpServerPort = 8003,
     documentRoot = './www',
     defaultFile = '/index.html',
@@ -30,7 +30,7 @@ var WStoSOAP = {},
     },
     
     soapMonitorProtocol = 'http',
-    soapMonitorHost = '127.0.0.1',
+    soapMonitorHost = '141.22.69.164',
     soapMonitorPort = 7890,
     soapMonitorPath = 'monitor?wsdl',
     soapEndport = 'webservice.WebServiceInterface';
