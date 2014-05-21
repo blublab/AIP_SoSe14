@@ -71,14 +71,14 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		vorgangDAO.create(v1); // create vorgang
 		Fertigungsplan fp1 = new Fertigungsplan();
 		fp1.addVorgang(v1);
-		fp1.setBauteil(einfachesBauteil);
+//		fp1.setBauteil(einfachesBauteil);
 		fertigungsplanDAO.create(fp1); // create fertigungsplan
 		einfachesBauteil.setFertigungsplan(fp1);
 		bauteilDAO.update(einfachesBauteil); // update bauteil
 		
 		// Setup komplexes Bauteil
 		Bauteil komplexesBauteil = new Bauteil();
-		komplexesBauteil.setName("M�hdrescher");
+		komplexesBauteil.setName("Maehdrescher");
 		bauteilDAO.create(komplexesBauteil); // create bauteil
 		Vorgang v2 = new Vorgang();
 		v2.setVorgangTyp(ArtTyp.BEREITSTELLUNG);
@@ -109,7 +109,7 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		fp2.addVorgang(v3);
 		fp2.addVorgang(v4);
 		fp2.addVorgang(v5);
-		fp2.setBauteil(komplexesBauteil);
+//		fp2.setBauteil(komplexesBauteil);
 		fertigungsplanDAO.create(fp2); // create fertigungsplan
 		Stuecklistenposition slp1 = new Stuecklistenposition();
 		slp1.setMenge(3);
@@ -151,11 +151,11 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
 
 		System.out.println("Der Kunde hat das Angebot Nummer " + angebot.getAngebotNr() + " angenommen. \n");
-		auftragServices.nimmAngebotAn(angebot); // sets status to ANGENOMMEN
+		auftragServices.nimmAngebotAn(angebot.getAngebotNr()); // sets status to ANGENOMMEN
 		System.out.println("Der Status von Angebot Nummer " + angebot.getAngebotNr() + " wurde auf " + angebot.getStatus() + " gesetz. \n");
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
 		
-		Auftrag auftrag = auftragServices.createAuftragFuerAngebot(angebot); // creates auftrag for angebot
+		Auftrag auftrag = auftragServices.createAuftragFuerAngebot(angebot.getAngebotNr()); // creates auftrag for angebot
 		System.out.println("Folgender Auftrag wurde f�r das Angebot Nr. " + angebot.getAngebotNr() + " erstellt :");
 		System.out.println(auftrag + "\n");
 		System.out.println("Folgender Fertigungsauftrag wurde f�r den Auftrag Nr. " + auftrag.getAuftragsNr() + " erstellt: ");
@@ -183,11 +183,11 @@ public class NimmAngebotAnUndErstelleBauteilTest {
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
 
 		System.out.println("Der Kunde hat das Angebot Nummer " + angebot.getAngebotNr() + " angenommen. \n");
-		auftragServices.nimmAngebotAn(angebot); // sets status to ANGENOMMEN
+		auftragServices.nimmAngebotAn(angebot.getAngebotNr()); // sets status to ANGENOMMEN
 		System.out.println("Der Status von Angebot Nummer " + angebot.getAngebotNr() + " wurde auf " + angebot.getStatus() + " gesetz. \n");
 		System.out.println("+++++++++++++++++++++++++++++++++++++++++++++++ \n");
 		
-		Auftrag auftrag = auftragServices.createAuftragFuerAngebot(angebot); // creates auftrag for angebot
+		Auftrag auftrag = auftragServices.createAuftragFuerAngebot(angebot.getAngebotNr()); // creates auftrag for angebot
 		System.out.println("Folgender Auftrag wurde f�r das Angebot Nr. " + angebot.getAngebotNr() + " erstellt :");
 		System.out.println(auftrag + "\n");
 		System.out.println("Folgender Fertigungsauftrag wurde f�r den Auftrag Nr. " + auftrag.getAuftragsNr() + " erstellt: ");

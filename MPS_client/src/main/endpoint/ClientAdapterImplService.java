@@ -30,7 +30,7 @@ public class ClientAdapterImplService
         URL url = null;
         WebServiceException e = null;
         try {
-            url = new URL("http://localhost:8080/WS/Test?wsdl");
+            url = new URL("http://141.22.93.210:4000/WS/Test?wsdl");
         } catch (MalformedURLException ex) {
             e = new WebServiceException(ex);
         }
