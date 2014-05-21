@@ -1,5 +1,7 @@
 package main.util;
 
+import java.util.List;
+
 
 public interface IGenericDao <T> {
 
@@ -16,4 +18,7 @@ public interface IGenericDao <T> {
 
     /** Remove an object from persistent storage in the database */
     public void delete(T persistentObject);
+    
+    /** Retrieve all objects of Type T */
+    public List<T> readAll();
 }

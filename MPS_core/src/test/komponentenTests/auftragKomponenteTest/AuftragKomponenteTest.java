@@ -66,8 +66,8 @@ public class AuftragKomponenteTest {
 			}
 		});
 		Angebot angebot = auftragSerivces.createAngebot(2, 42);
-		auftragSerivces.nimmAngebotAn(angebot);
-		Auftrag auftrag = auftragSerivces.createAuftragFuerAngebot(angebot);
+		auftragSerivces.nimmAngebotAn(angebot.getAngebotNr());
+		Auftrag auftrag = auftragSerivces.createAuftragFuerAngebot(angebot.getAngebotNr());
 		Auftrag auftragVonAngebot = angebotDAO.read(angebot.getAngebotNr())
 				.getAuftrag();
 		Auftrag auftragVonDB = auftragDAO.read(auftrag.getAuftragsNr());
