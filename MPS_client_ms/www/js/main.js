@@ -24,21 +24,26 @@ var SOAP = {
         }
     },
     createAngebot: function(data) {
-        alert(data);
+        alert(JSON.stringify(data));
+        updateAngebote();
     },
     acceptAngebot: function(data) {
-        alert(data);
+        alert(JSON.stringify(data));
+        updateAngebote();
+        updateAuftraege();
     }
 };
 
 function renderAngebot(data) {
 
+    console.log(data);
+
     var template = $($('#mps-uebersicht-angebot').html());
 
     template.find('.mps-uebersicht-angebotNr').html(data.angebotNr);
-    template.find('.mps-uebersicht-gueltingAb').html(moment(parseInt(data.gueltingAb)).format('HH:mm:ss'));
-    template.find('.mps-uebersicht-gueltigBis').html(moment(parseInt(data.gueltigBis)).format('HH:mm:ss'));
-    template.find('.mps-uebersicht-preis').html(data.preis);
+    template.find('.mps-uebersicht-gueltingAb').html(new Date(parseInt(data.gueltingAb)));
+    template.find('.mps-uebersicht-gueltigBis').html(new Date(parseInt(data.gueltigBis)));
+    template.find('.mps-uebersicht-preis').html(data.preis + ' €');
     template.find('.mps-uebersicht-status').html(data.status);
     template.find('.mps-uebersicht-bauteil').html(data.bauteil);
     template.find('.mps-uebersicht-auftrag').html(data.auftrag);
@@ -105,11 +110,10 @@ function updateAuftraege() {
 function createAngebot() {
     var nr = $('#kunde').val(),
         bt = $('#bauteil').val();
-    WS.send(JSON.stringify({
+    WS.send(asd = JSON.stringify({
         func: "createAngebot",
         data: {arg0: nr, arg1: bt}
     }));
-    updateAngebote();
     $('.nav-tabs a[href="#uebersicht"]').tab('show');
 }
 
@@ -119,8 +123,6 @@ function acceptAngebot() {
         func: "acceptAngebot",
         data: {arg0: nr}
     }));
-    updateAngebote();
-    updateAuftraege();
     $('.nav-tabs a[href="#uebersicht"]').tab('show');
 }
 
@@ -135,10 +137,6 @@ $(document).ready(function() {
         wsicon.style.color = 'green';
         wsicon.className = 'glyphicon glyphicon-ok';
         console.log('WebSocket connected');
-
-        updateBauteile();
-        updateAngebote();
-        updateAuftraege();
     };
 
     WS.onmessage = function(message) {

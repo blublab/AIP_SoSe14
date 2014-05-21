@@ -1,26 +1,26 @@
-package clients;
+package core;
 
 import java.net.InetAddress;
 import java.util.Date;
 
-public class Client {
+public class Core {
 
     private InetAddress address;
     private Integer port;
-    private Integer load;
-    private Status status;
+    private Double load;
+    private CoreStatus status;
     private Integer query;
     private Date signal;
     private Date uptime;
     private Date idletime;
     private Date downtime;
 
-    public Client(InetAddress address, Integer port){
+    public Core(InetAddress address, Integer port){
         this.address = address;
         this.port = port;
-        this.load = 100;
+        this.load = 0d;
         this.query = 0;
-        this.setStatus(Status.YELLOW);
+        this.setStatus(CoreStatus.YELLOW);
         this.refreshSignal();
     }
 
@@ -32,21 +32,21 @@ public class Client {
         return port;
     }
 
-    public Status getStatus() {
-        return status;
-    }
-
-    public Integer getLoad() {
+    public Double getLoad() {
         return load;
     }
 
-    public void setLoad(Integer load) {
+    public void setLoad(Double load) {
         this.load = load;
     }
 
-    public void setStatus(Status status) {
+    public CoreStatus getStatus() {
+        return status;
+    }
 
-        switch (status){
+    public void setStatus(CoreStatus coreStatus) {
+
+        switch (coreStatus){
             case GREEN:
                 this.uptime = new Date();
                 this.idletime = null;
@@ -65,19 +65,18 @@ public class Client {
                 break;
         }
 
-        this.status = status;
+        this.status = coreStatus;
     }
     public void setStatus(String status) {
-        this.setStatus(Status.valueOf(status));
-    }
-
-
-    public void refreshSignal(){
-        this.signal = new Date();
+        this.setStatus(CoreStatus.valueOf(status));
     }
 
     public Date getSignal(){
         return this.signal;
+    }
+
+    public void refreshSignal(){
+        this.signal = new Date();
     }
 
     public void incrementQuery(){
@@ -112,7 +111,7 @@ public class Client {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Client that = (Client) o;
+        Core that = (Core) o;
 
         if (!address.equals(that.address)) return false;
         if (!port.equals(that.port)) return false;

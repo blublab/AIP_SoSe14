@@ -32,7 +32,8 @@ var WStoSOAP = {},
     soapMonitorProtocol = 'http',
     soapMonitorHost = '127.0.0.1',
     soapMonitorPort = 7890,
-    soapMonitorPath = 'monitor?wsdl';
+    soapMonitorPath = 'monitor?wsdl',
+    soapEndport = 'webservice.WebServiceInterface';
 
 /************************/
 /*** WebSocket Server ***/
@@ -51,7 +52,7 @@ wsServer.on('connection', function(ws) {
         try {
             var message = JSON.parse(msg);
             WStoSOAP[message.func](message.data, function(err, result) {
-                if (!err) {
+                if (!err && result.return) {
                     try {
                         JSON.parse(result.return);
                         var data = JSON.stringify({
@@ -60,8 +61,13 @@ wsServer.on('connection', function(ws) {
                         });
                         ws.send(data);
                     } catch (e) {
+                        console.log('######')
+                        console.log(result);
+                        console.log('######')
                         console.log("Invalid return from WebService (" + message.func + ")");
                     }
+                }else{
+                    //console.log("No return value from (" + message.func + ")");
                 }
             });
         } catch (e) {
@@ -73,9 +79,9 @@ wsServer.on('connection', function(ws) {
 /*******************/
 /*** SOAP CLient ***/
 /*******************/
-var endpoint = "monitor.WebServiceInterface",
-    url = soapMonitorProtocol + '://' + soapMonitorHost + ':' + soapMonitorPort + '/' + soapMonitorPath;
-soapLib.createClient(url, endpoint, function(err, client) {
+var url = soapMonitorProtocol + '://' + soapMonitorHost + ':' + soapMonitorPort + '/' + soapMonitorPath;
+console.log(url);
+soapLib.createClient(url, soapEndport, function(err, client) {
 
     if (err) {
         console.log(err);

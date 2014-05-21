@@ -36,14 +36,24 @@ function addInstance(data) {
         $('.table tbody').append(instance);
     }
 
+    instance.find('.red').css({
+        cursor: "not-allowed"
+    });
+
+    instance.find('.green, .yellow').css({
+        cursor: "pointer"
+    });
+
     instance.find('.yellow').off("click").click(function() {
-        if (self.status != 'RED')
+        if (self.status != 'RED'){
             SOAP.setStatus(self.host, self.port, 'YELLOW');
+        }
     });
 
     instance.find('.green').off("click").click(function() {
-        if (self.status != 'RED')
+        if (self.status != 'RED'){
             SOAP.setStatus(self.host, self.port, 'GREEN');
+        }
     });
 
     updateInstance.call(this, instance);
@@ -56,7 +66,6 @@ function updateInstance(instance) {
         uptime = this.uptime ? moment(parseInt(this.uptime)).format('HH:mm:ss') : '',
         idletime = this.idletime ? moment(parseInt(this.idletime)).format('HH:mm:ss') : '',
         downtime = this.downtime ? moment(parseInt(this.downtime)).format('HH:mm:ss') : '';
-
 
     instance.find('.mps-host').html(this.host);
     instance.find('.mps-port').html(this.port);
@@ -85,7 +94,7 @@ function updateInstance(instance) {
 }
 
 function refresh() {
-    var rate = 3500;
+    var rate = 1000;
     if (WS.readyState == WS.OPEN) {
         WS.send(JSON.stringify({
             func: "getInstances",

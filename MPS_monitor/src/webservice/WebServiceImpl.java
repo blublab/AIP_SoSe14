@@ -1,24 +1,24 @@
-package monitor;
+package webservice;
 
-import clients.ClientList;
-import clients.Status;
+import core.CoreList;
+import core.CoreStatus;
 
 import javax.jws.WebService;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-@WebService(endpointInterface="monitor.WebServiceInterface")
+@WebService(endpointInterface="webservice.WebServiceInterface")
 public class WebServiceImpl implements WebServiceInterface {
 
-    public ClientList clientList;
+    public CoreList coreList;
 
     public WebServiceImpl(){
-        this.clientList = ClientList.getInstance();
+        this.coreList = CoreList.getInstance();
     }
 
     @Override
     public String getInstances() {
-        return this.clientList.toString();
+        return this.coreList.toString();
     }
 
     @Override
@@ -30,8 +30,8 @@ public class WebServiceImpl implements WebServiceInterface {
             e.printStackTrace();
         }
         Integer port = Integer.parseInt(p);
-        Status status = Status.valueOf(s);
+        CoreStatus coreStatus = CoreStatus.valueOf(s);
 
-        this.clientList.get(host, port).setStatus(status);
+        this.coreList.get(host, port).setStatus(coreStatus);
     }
 }

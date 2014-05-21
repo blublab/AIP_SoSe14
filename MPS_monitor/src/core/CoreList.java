@@ -1,30 +1,30 @@
-package clients;
+package core;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ClientList implements Iterable{
+public class CoreList implements Iterable{
 
-    private static ClientList instance;
-    private ArrayList<Client> list;
+    private static CoreList instance;
+    private ArrayList<Core> list;
 
-    private ClientList(){
-        ClientList.instance = null;
-        this.list = new ArrayList<Client>();
+    private CoreList(){
+        CoreList.instance = null;
+        this.list = new ArrayList<Core>();
     }
 
-    public static ClientList getInstance() {
-        if (ClientList.instance == null) {
-            ClientList.instance = new ClientList();
+    public static CoreList getInstance() {
+        if (CoreList.instance == null) {
+            CoreList.instance = new CoreList();
         }
-        return ClientList.instance;
+        return CoreList.instance;
     }
 
     public void add(InetAddress address, Integer port){
         if(this.has(address, port) == false){
-            this.list.add(new Client(address, port));
+            this.list.add(new Core(address, port));
         }
     }
     public void add(String address, String port){
@@ -35,9 +35,9 @@ public class ClientList implements Iterable{
         }
     }
 
-    public Client get(InetAddress address, Integer port){
-        Client cc;
-        Iterator<Client> itcc = this.list.iterator();
+    public Core get(InetAddress address, Integer port){
+        Core cc;
+        Iterator<Core> itcc = this.list.iterator();
         while(itcc.hasNext()){
             cc = itcc.next();
             if(cc.getAddress().equals(address) && cc.getPort().equals(port)){
@@ -46,7 +46,7 @@ public class ClientList implements Iterable{
         }
         return null;
     }
-    public Client get(String address, String port){
+    public Core get(String address, String port){
         try {
             return this.get(InetAddress.getByName(address), Integer.parseInt(port));
         } catch (UnknownHostException e) {
@@ -56,11 +56,11 @@ public class ClientList implements Iterable{
     }
 
     public Boolean has(InetAddress address, Integer port){
-        Client coreClient;
-        Iterator<Client> it = this.list.iterator();
+        Core coreCore;
+        Iterator<Core> it = this.list.iterator();
         while(it.hasNext()){
-            coreClient = it.next();
-            if(coreClient.getAddress().equals(address) && coreClient.getPort().equals(port)){
+            coreCore = it.next();
+            if(coreCore.getAddress().equals(address) && coreCore.getPort().equals(port)){
                 return true;
             }
         }
@@ -78,11 +78,13 @@ public class ClientList implements Iterable{
     @Override
     public String toString(){
         String str = "[";
-        Iterator<Client> it = this.list.iterator();
+        Iterator<Core> it = this.list.iterator();
         while(it.hasNext()){
             str += it.next().toString() + ",";
         }
-        str = str.substring(0, str.length() - 1);
+        if(this.list.size() > 0){
+            str = str.substring(0, str.length() - 1);
+        }
         str += "]";
         return str;
     }

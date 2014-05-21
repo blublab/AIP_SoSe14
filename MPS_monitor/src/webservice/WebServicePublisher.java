@@ -1,4 +1,4 @@
-package monitor;
+package webservice;
 
 import config.Configuration;
 import javax.xml.ws.Endpoint;
@@ -16,6 +16,6 @@ public class WebServicePublisher {
         String url = "http://" + host + ":" + port + "/" + path;
         Endpoint.publish(url, new WebServiceImpl());
 
-        System.out.println("WebService: " + url);
+        System.out.println("WebServicePulisher: " + url);
     }
 }
