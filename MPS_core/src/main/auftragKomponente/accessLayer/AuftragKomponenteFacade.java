@@ -1,6 +1,8 @@
 package main.auftragKomponente.accessLayer;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import main.auftragKomponente.accessLayer.Exceptions.InvalidAngebotStatusException;
 import main.auftragKomponente.businessLogicLayer.AuftragKomponenteBusinessLogic;
@@ -24,9 +26,10 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 	}
 
 	@Override
-	public Auftrag createAuftragFuerAngebot(Angebot angebot)
+	public Auftrag createAuftragFuerAngebot(int angebotNr)
 			throws InvalidAngebotStatusException {
-		assert angebot != null;
+		assert angebotNr < 0;
+		Angebot angebot = readAngebotById(angebotNr);
 		if (angebot.getStatus() != Angebot.StatusTyp.ANGENOMMEN) {
 			throw new InvalidAngebotStatusException();
 		}
@@ -45,10 +48,10 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 	}
 
 	@Override
-	public void nimmAngebotAn(Angebot angebot)
+	public void nimmAngebotAn(int angebotNr)
 			throws InvalidAngebotStatusException {
-		assert angebot != null;
-		
+		assert angebotNr < 0;
+		Angebot angebot = readAngebotById(angebotNr);
 		//TODO pr�fen, ob Angebot abgelaufen ist -> falls ja, Status auf abgelaufen �ndern
 		if (angebot.getStatus() != Angebot.StatusTyp.ANGELEGT) {
 			throw new InvalidAngebotStatusException();
@@ -107,5 +110,19 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 		assert auftragNr > 0;
 		
 		return auftragDAO.read(auftragNr);
+	}
+
+	@Override
+	public List<Angebot> readAllAngebote() {
+		List<Angebot> angebotList = new ArrayList<Angebot>();
+		angebotList = angebotDAO.readAll();
+		return angebotList;
+	}
+
+	@Override
+	public List<Auftrag> readAllAuftraege() {
+		List<Auftrag> auftragList = new ArrayList<Auftrag>();
+		auftragList = auftragDAO.readAll();
+		return auftragList;
 	}
 }

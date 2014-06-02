@@ -60,7 +60,7 @@ public class HibernateUtil {
 		// }
 		// </debug>
 
-		configuration.configure("hibernate.cfg.xml");
+		configuration.configure("cfg/hibernate.cfg.xml");
 		return configuration;
 	}
 

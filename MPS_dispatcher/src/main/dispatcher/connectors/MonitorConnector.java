@@ -29,7 +29,11 @@ public class MonitorConnector {
 	private BufferedWriter writer = null;
 
 	public MonitorConnector(Balancer balancer) {
+<<<<<<< HEAD
 		this.monitorUrl = "127.0.0.1";
+=======
+		this.monitorUrl = "localhost";
+>>>>>>> 7ced24635075c07484fa4e2878454b9995c6acf4
 		this.monitorPort = 6789;
 		this.balancer = balancer;
 		this.receiver = new Receiver();

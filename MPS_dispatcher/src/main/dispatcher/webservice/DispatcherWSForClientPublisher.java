@@ -20,7 +20,11 @@ public class DispatcherWSForClientPublisher {
 		logger = Logger.getGlobal();
 		createProperties();
 		
+<<<<<<< HEAD
 		String webserviceEndpoint = "http://141.22.69.164:4000/dispatcher";
+=======
+		String webserviceEndpoint = "http://141.22.70.216:4000/dispatcher";
+>>>>>>> 7ced24635075c07484fa4e2878454b9995c6acf4
 		
 		Endpoint.publish(webserviceEndpoint, new DispatcherWSForClientImpl());
 		Timer timer = new Timer();
