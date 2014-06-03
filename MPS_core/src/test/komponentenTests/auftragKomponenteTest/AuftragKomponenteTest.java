@@ -30,7 +30,7 @@ public class AuftragKomponenteTest {
 	public void setUp() throws Exception {
 		context = new Mockery();
 		auftragDAO = new GenericDAO<Auftrag>(Auftrag.class);
-		angebotDAO = new GenericDAO<>(Angebot.class);
+		angebotDAO = new GenericDAO<Angebot>(Angebot.class);
 		fertigungServicesMock = context
 				.mock(IFertigungServicesFuerAuftrag.class);
 		auftragSerivces = new AuftragKomponenteFacade(fertigungServicesMock);
