@@ -2,10 +2,10 @@ package test.adapterTest.transportdienstleisterAdapterTest;
 
 import main.logistikKomponente.dataAccessLayer.Transportauftrag;
 import main.transportdientsleisterAdapter.businessLogicLayer.TransportdienstlseiterAdapterBusinessLogic;
+import org.json.simple.JSONObject;
+import org.json.simple.JSONValue;
 
 import java.util.Date;
-
-import static org.junit.Assert.*;
 
 public class TransportdienstlseiterAdapterBusinessLogicTest extends junit.framework.TestCase {
 
@@ -22,9 +22,17 @@ public class TransportdienstlseiterAdapterBusinessLogicTest extends junit.framew
 
     @org.junit.Test
     public void testSendeTransportauftrag() throws Exception {
+
         TransportdienstlseiterAdapterBusinessLogic tda;
         tda = new TransportdienstlseiterAdapterBusinessLogic();
+
         String response = tda.sendeTransportauftrag(ta);
-        assertEquals(response, "received");
+
+        JSONObject obj = (JSONObject)JSONValue.parse(response);
+
+        assertEquals(obj.get("transportauftragsNr"), ta.getTransportauftragsNr().longValue());
+        assertEquals(obj.get("ausgangsdatum"), ta.getAusgangsdatum().toString());
+        assertEquals(obj.get("lieferrungErfolgt"), ta.getLieferrungErfolgt());
+        assertEquals(obj.get("transportdienstleister"), ta.getTransportdienstleister());
     }
 }

@@ -4,30 +4,31 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.WebResource;
 import main.logistikKomponente.dataAccessLayer.Transportauftrag;
 import main.transportdientsleisterAdapter.accessLayer.IItransportdienstleisterAdapter;
+import org.json.simple.JSONObject;
+
 import javax.ws.rs.core.MediaType;
-import java.util.Date;
 
 public class TransportdienstlseiterAdapterBusinessLogic implements IItransportdienstleisterAdapter {
 
     private static final String restURL = "http://localhost:8080/spediteur";
 
     @Override
-    public void sendeTransportauftrag(Transportauftrag ta) {
+    public String sendeTransportauftrag(Transportauftrag ta) {
 
-        String json = "";
-        json += "{";
-        json += "\"transportauftragsNr\":\"" + ta.getTransportauftragsNr() + "\",";
-        json += "\"transportdienstleister\":\"" + ta.getTransportdienstleister() + "\",";
-        json += "\"ausgangsdatum\":\"" + ta.getAusgangsdatum() + "\"";
-        json += "}";
+        JSONObject obj = new JSONObject();
+        obj.put("transportauftragsNr", ta.getTransportauftragsNr());
+        obj.put("ausgangsdatum", ta.getAusgangsdatum().toString());
+        obj.put("transportauftragsNr", ta.getTransportauftragsNr());
+        obj.put("lieferrungErfolgt", ta.getLieferrungErfolgt());
+        obj.put("transportdienstleister", ta.getTransportdienstleister());
 
         Client cl = Client.create();
         WebResource wr = cl.resource(restURL);
 
         wr.type(MediaType.APPLICATION_JSON);
-        String response = wr.post(String.class, json);
+        String response = wr.post(String.class, obj.toJSONString());
 
-        System.out.println(response);
+        return response;
     }
 }
 

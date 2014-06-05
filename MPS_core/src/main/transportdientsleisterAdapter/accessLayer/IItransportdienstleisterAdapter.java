@@ -7,5 +7,5 @@ import main.logistikKomponente.dataAccessLayer.Transportauftrag;
  */
 public interface IItransportdienstleisterAdapter {
 
-    public void sendeTransportauftrag(Transportauftrag ta);
+    public String sendeTransportauftrag(Transportauftrag ta);
 }

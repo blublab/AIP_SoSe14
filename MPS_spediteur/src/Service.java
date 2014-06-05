@@ -1,4 +1,3 @@
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -11,6 +10,6 @@ public class Service {
     @Produces( MediaType.APPLICATION_JSON )
     public String transportauftrag(String json){
         System.out.println(json);
-        return "received";
+        return json;
     }
 }

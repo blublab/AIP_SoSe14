@@ -22,7 +22,7 @@ public class AuftragKomponenteFacade implements IAuftragServices, IAuftragServic
 			IFertigungServicesFuerAuftrag fertigungServices) {
 		this.aKBL = new AuftragKomponenteBusinessLogic(fertigungServices);
 		this.angebotDAO = new GenericDAO<Angebot>(Angebot.class);
-		this.auftragDAO = new GenericDAO<>(Auftrag.class);
+		this.auftragDAO = new GenericDAO<Auftrag>(Auftrag.class);
 	}
 
 	@Override
