@@ -11,6 +11,7 @@ public class Server {
 
     public static void main( String[] args ) throws Exception{
         String url = "http://" + Server.host + ":" + Server.port + "/" + Server.path;
+        System.out.println(url);
         HttpServer server = HttpServerFactory.create(url);
         server.start();
     }

@@ -1,5 +1,6 @@
 package rest;
 
+import com.sun.jersey.api.client.Client;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
@@ -54,6 +55,12 @@ public class Service {
             Long index = (Long)obj.get("taid");
             Boolean status = (Boolean)obj.get("tale");
             TransList.getInstance().lieferungErfolgt(index, status);
+
+            if(status == true){
+                String url = "http://localhost:8081/core/done";
+                String type = MediaType.APPLICATION_JSON;
+                Client.create().resource(url).type(type).post(String.class, json);
+            }
         }
         System.out.println(TransList.getInstance().get());
         return this.responseRequest("".toString());
