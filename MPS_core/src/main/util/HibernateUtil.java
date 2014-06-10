@@ -2,6 +2,8 @@ package main.util;
 
 import main.auftragKomponente.dataAccessLayer.Angebot;
 import main.auftragKomponente.dataAccessLayer.Auftrag;
+import main.buchhaltungKomponente.dataAccessLayer.Kundenrechnung;
+import main.buchhaltungKomponente.dataAccessLayer.Zahlungseingang;
 import main.fertigungKomponente.dataAccessLayer.Bauteil;
 import main.fertigungKomponente.dataAccessLayer.Fertigungsauftrag;
 import main.fertigungKomponente.dataAccessLayer.Fertigungsplan;
@@ -23,8 +25,8 @@ public class HibernateUtil {
 		// Begin configuration
 
 		// Properties
-		// configuration.setProperty("connection.url",
-		// "jdbc:mysql://localhost:3306/test");
+//		 configuration.setProperty("connection.url",
+//		 "jdbc:mysql://localhost:3301/test");
 		// configuration.setProperty("connection.username", "root");
 		// configuration.setProperty("connection.password", "root");
 		// configuration.setProperty("connection.driver_class",
@@ -37,6 +39,10 @@ public class HibernateUtil {
 		// AuftragKomponente
 		configuration.addAnnotatedClass(Auftrag.class);
 		configuration.addAnnotatedClass(Angebot.class);
+		
+		//BuchhaltungKomponente
+		configuration.addAnnotatedClass(Kundenrechnung.class);
+		configuration.addAnnotatedClass(Zahlungseingang.class);
 
 		// FertigungsKomponente
 		configuration.addAnnotatedClass(Fertigungsauftrag.class);

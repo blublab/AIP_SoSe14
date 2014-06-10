@@ -8,6 +8,10 @@ import main.auftragKomponente.accessLayer.IAuftragServicesFuerFertigung;
 import main.auftragKomponente.accessLayer.Exceptions.InvalidAngebotStatusException;
 import main.auftragKomponente.dataAccessLayer.Angebot;
 import main.auftragKomponente.dataAccessLayer.Auftrag;
+import main.bankAdapter.accessLayer.BankAdapterFacade;
+import main.bankAdapter.accessLayer.IBankAdapterFuerBuchhaltungServices;
+import main.buchhaltungKomponente.accessLayer.BuchhaltungKomponenteFacade;
+import main.buchhaltungKomponente.accessLayer.IBuchhaltungServices;
 import main.fertigungKomponente.accessLayer.FertigungKomponenteFacade;
 import main.fertigungKomponente.accessLayer.IFertigungServices;
 import main.fertigungKomponente.accessLayer.IFertigungServicesFuerAuftrag;
@@ -21,8 +25,12 @@ public class NetBusinessApp implements IBusinessServicesForNet {
 	private IFertigungServices fertigungServices;
 	private IAuftragServicesFuerFertigung auftragServicesFuerFertigung;
 	private IFertigungServicesFuerAuftrag fertigungsServicesFuerAuftrag;
+	private IBankAdapterFuerBuchhaltungServices bankAdapterServicesFuerBuchhaltung;
+	private IBuchhaltungServices buchhaltungServices;
 
 	public NetBusinessApp() {
+		this.bankAdapterServicesFuerBuchhaltung = new BankAdapterFacade();
+		this.buchhaltungServices = new BuchhaltungKomponenteFacade(this.bankAdapterServicesFuerBuchhaltung);
 		FertigungKomponenteFacade fertigungFacade = new FertigungKomponenteFacade();
 		fertigungServices = fertigungFacade;
 		fertigungsServicesFuerAuftrag = fertigungFacade;

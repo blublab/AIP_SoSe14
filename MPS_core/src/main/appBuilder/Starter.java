@@ -36,7 +36,8 @@ public class Starter {
 				}
 			}
 		}
-		local_port = Integer.parseInt(args[0]);
+//		local_port = Integer.parseInt(args[0]);
+		local_port = 9001;
 
 		System.out.println("Local port: " + local_port);
 		System.out.println("Monitor host: " + monitor_host);
@@ -49,7 +50,9 @@ public class Starter {
 		timer.schedule(heartbeatTask, 0, period);
 		
 		Thread mps_server = new MPSServer(local_port);
+		
 		mps_server.start();
+		
 		try {
 			mps_server.join();
 		} catch (InterruptedException e) {
