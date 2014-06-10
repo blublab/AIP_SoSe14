@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 
 public class TransportdienstlseiterAdapterBusinessLogic implements IItransportdienstleisterAdapter {
 
-    private static final String restURL = "http://localhost:8080/spediteur";
+    private static final String restURL = "http://localhost:8080/spediteur/add";
 
     @Override
     public String sendeTransportauftrag(Transportauftrag ta) {
@@ -19,7 +19,7 @@ public class TransportdienstlseiterAdapterBusinessLogic implements IItransportdi
         obj.put("transportauftragsNr", ta.getTransportauftragsNr());
         obj.put("ausgangsdatum", ta.getAusgangsdatum().toString());
         obj.put("transportauftragsNr", ta.getTransportauftragsNr());
-        obj.put("lieferrungErfolgt", ta.getLieferrungErfolgt());
+        obj.put("lieferungErfolgt", ta.getLieferrungErfolgt());
         obj.put("transportdienstleister", ta.getTransportdienstleister());
 
         Client cl = Client.create();
