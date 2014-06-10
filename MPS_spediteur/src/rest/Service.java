@@ -41,6 +41,12 @@ public class Service {
         Long lnr = Long.valueOf(obj.get("tanr").toString());
         if(TransList.getInstance().has(lnr)){
             TransList.getInstance().remove(lnr);
+
+            String url = "http://localhost:8081/core/done";
+            String type = MediaType.APPLICATION_JSON;
+            JSONObject obj2 = new JSONObject();
+            obj2.put("reject", lnr);
+            Client.create().resource(url).type(type).post(String.class, obj2.toJSONString());
         }
         Boolean response = TransList.getInstance().has(lnr);
         return this.responseRequest(response.toString());
@@ -59,7 +65,9 @@ public class Service {
             if(status == true){
                 String url = "http://localhost:8081/core/done";
                 String type = MediaType.APPLICATION_JSON;
-                Client.create().resource(url).type(type).post(String.class, json);
+                JSONObject obj2 = new JSONObject();
+                obj2.put("accept", index);
+                Client.create().resource(url).type(type).post(String.class, obj2.toJSONString());
             }
         }
         System.out.println(TransList.getInstance().get());
