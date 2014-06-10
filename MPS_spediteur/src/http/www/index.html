@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+
+    <!-- jquery -->
+    <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+
+    <!-- bootstrap -->
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-3.1.1.min.css">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap-theme-3.1.1.min.css">
+    <script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
+
+    <!-- main -->
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <title>Spediteur-GUI</title>
+</head>
+
+<body>
+
+    <div class="page-header">
+        <h1>Spediteur-GUI
+            <small>
+                <span id="wsstatus"></span> <span id="wsicon" class="" style="cursor: pointer" onclick="window.location.reload()"></span>
+            </small>
+        </h1>
+    </div>
+
+
+    <table class="table" id="mps-transportauftrag">
+        <thead>
+            <tr>
+                <th>TransportauftragsNr</th>
+                <th>Ausgangsdatum</th>
+                <th>LieferrungErfolgt</th>
+                <th>Transportdienstleister</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+
+    <script id="mps-transportauftrag-template" type="text/template">
+    <tr>
+        <td class="mps-transportauftragsNr"></td>
+        <td class="mps-ausgangsdatum"></td>
+        <td class="mps-lieferrungErfolgt">
+            <input type="checkbox" name="delivered">
+        </td>
+        <td class="mps-transportdienstleister"></td>
+    </tr>
+    </script>
+
+</body>
+
+</html>
