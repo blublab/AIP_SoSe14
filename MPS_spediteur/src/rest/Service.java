@@ -13,7 +13,7 @@ public class Service {
 
     private Response responseRequest(String str){
         return Response.ok(str)
-                .header("Access-Control-Allow-Origin", "http://localhost:8000")
+                .header("Access-Control-Allow-Origin", "*")
                 .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
                 .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With")
                 .build();
@@ -28,6 +28,20 @@ public class Service {
         Boolean response = TransList.getInstance().has(nr);
         TransList.getInstance().add(obj);
         response = !response && TransList.getInstance().has(nr);
+        return this.responseRequest(response.toString());
+    }
+
+    @POST
+    @Path("delete")
+    @Produces( MediaType.TEXT_PLAIN )
+    public Response deleteTransportauftrag(String json){
+        System.out.println(json);
+        JSONObject obj = (JSONObject)JSONValue.parse(json);
+        Long lnr = Long.valueOf(obj.get("tanr").toString());
+        if(TransList.getInstance().has(lnr)){
+            TransList.getInstance().remove(lnr);
+        }
+        Boolean response = TransList.getInstance().has(lnr);
         return this.responseRequest(response.toString());
     }
 
