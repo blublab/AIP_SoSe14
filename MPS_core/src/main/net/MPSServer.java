@@ -45,29 +45,23 @@ public class MPSServer extends Thread {
 				JSONObject json_rq = (JSONObject) obj_rq;
 				String command = (String) json_rq.get("command");
 				System.out.println("Received command: " + command);
-				switch (command) {
-				case "createAngebot" :
-					Long kundenNrLong = (Long) json_rq.get("kundenNr");
-					int kundenNr = kundenNrLong.intValue();
-					Long bauteilNrLong = (Long) json_rq.get("bauteilNr");
-					int bauteilNr = bauteilNrLong.intValue();
-					sendMessage(app.createAngebot(kundenNr, bauteilNr));
-					break;
-				case "acceptAngebot" :
-					Long angebotNrLong = (Long) json_rq.get("angebotNr");
-					int angebotNr = angebotNrLong.intValue();
-					sendMessage(app.acceptAngebot(angebotNr));
-					break;
-				case "getAllAngebote" :
-					sendMessage(app.getAllAngebote());
-					break;
-				case "getAllAuftraege" :
-					sendMessage(app.getAllAuftraege());
-					break;
-				case "getAllBauteile" :
-					sendMessage(app.getAllBauteile());
-					break;
-				}
+				if (command.equals("createAngebot")) {
+                    Long kundenNrLong = (Long) json_rq.get("kundenNr");
+                    int kundenNr = kundenNrLong.intValue();
+                    Long bauteilNrLong = (Long) json_rq.get("bauteilNr");
+                    int bauteilNr = bauteilNrLong.intValue();
+                    sendMessage(app.createAngebot(kundenNr, bauteilNr));
+                }else if(command.equals("acceptAngebot")){
+                    Long angebotNrLong = (Long) json_rq.get("angebotNr");
+                    int angebotNr = angebotNrLong.intValue();
+                    sendMessage(app.acceptAngebot(angebotNr));
+                }else if(command.equals("getAllAngebote")){
+                    sendMessage(app.getAllAngebote());
+                }else if(command.equals("getAllAuftraege")){
+                    sendMessage(app.getAllAuftraege());
+                }else if(command.equals("getAllBauteile")){
+                    sendMessage(app.getAllBauteile());
+                }
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			} finally {

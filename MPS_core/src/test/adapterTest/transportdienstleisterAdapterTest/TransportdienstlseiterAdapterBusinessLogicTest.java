@@ -12,7 +12,7 @@ public class TransportdienstlseiterAdapterBusinessLogicTest extends junit.framew
     @org.junit.Before
     public void setUp() throws Exception {
         ta = new Transportauftrag();
-        ta.setTransportauftragsNr(123);
+        ta.setTransportauftragsNr(111);
         ta.setAusgangsdatum(new Date());
         ta.setLieferrungErfolgt(false);
         ta.setTransportdienstleister("Müller KG");

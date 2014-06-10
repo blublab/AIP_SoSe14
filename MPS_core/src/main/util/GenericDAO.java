@@ -26,7 +26,7 @@ public class GenericDAO<T> implements IGenericDao<T> {
 		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
-			throw e;
+			e.printStackTrace();
 		} finally {
 			session.close();
 		}
@@ -47,10 +47,11 @@ public class GenericDAO<T> implements IGenericDao<T> {
 		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
-			throw e;
+            e.printStackTrace();
 		} finally {
 			session.close();
 		}
+        return null;
 	}
 
 	@Override
@@ -66,11 +67,12 @@ public class GenericDAO<T> implements IGenericDao<T> {
 		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
-			throw e;
+            e.printStackTrace();
 		} finally {
 			session.close();
 		}
-	}
+        return null;
+    }
 
 	@Override
 	public void delete(T persistentObject) {
@@ -84,7 +86,7 @@ public class GenericDAO<T> implements IGenericDao<T> {
 		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
-			throw e;
+            e.printStackTrace();
 		} finally {
 			session.close();
 		}
@@ -109,9 +111,10 @@ public class GenericDAO<T> implements IGenericDao<T> {
 		} catch (Exception e) {
 			if (tx != null)
 				tx.rollback();
-			throw e;
+            e.printStackTrace();
 		} finally {
 			session.close();
 		}
+        return null;
 	}
 }
