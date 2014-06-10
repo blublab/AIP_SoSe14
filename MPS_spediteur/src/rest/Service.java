@@ -42,7 +42,7 @@ public class Service {
         if(TransList.getInstance().has(lnr)){
             TransList.getInstance().remove(lnr);
 
-            String url = "http://localhost:8081/core/done";
+            String url = "http://localhost:8081/core/reject";
             String type = MediaType.APPLICATION_JSON;
             JSONObject obj2 = new JSONObject();
             obj2.put("reject", lnr);
